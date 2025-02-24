@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Tournaments</string>
+    <string name="app_name">eSports</string>
+    <string name="next_tournaments">Next Tournaments:</string>
 </resources>
