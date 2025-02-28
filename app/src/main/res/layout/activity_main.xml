@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".activity.MainActivity">
+    tools:context=".view.MainView">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -25,14 +25,14 @@
             android:text="@string/next_tournaments" />
 
         <com.mapbox.maps.MapView
-            android:id="@+id/mapView"
+            android:id="@+id/mainMap"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             app:mapbox_cameraTargetLat="52.52000660"
             app:mapbox_cameraTargetLng="13.40495400"
-            app:mapbox_cameraZoom="4.0">
+            app:mapbox_cameraZoom="1.0">
 
         </com.mapbox.maps.MapView>
 
