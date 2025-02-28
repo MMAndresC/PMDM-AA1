@@ -13,7 +13,7 @@ public class Caster {
       String phone,
       int region,
       String languages,
-      LocalDate hireDate
+      String hireDate
     ){
         this.id = id;
         this.name = name;
@@ -36,5 +36,5 @@ public class Caster {
 
     private String languages;
 
-    private LocalDate hireDate;
+    private String hireDate;
 }

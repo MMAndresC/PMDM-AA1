@@ -1,14 +1,14 @@
 package com.svalero.tournaments.view;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mapbox.geojson.Point;
+import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
 import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
@@ -22,13 +22,14 @@ import com.svalero.tournaments.util.MapUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainView extends AppCompatActivity implements MainContract.View, Style.OnStyleLoaded{
+public class MainView extends AppCompatActivity implements MainContract.View{
 
     private MapView mapView;
     private PointAnnotationManager pointAnnotationManager;
-
     private List<Tournament> tournamentsList;
     private MainContract.Presenter presenter;
+    private boolean loadedMap = false;
+    private boolean loadedMarkers = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +42,13 @@ public class MainView extends AppCompatActivity implements MainContract.View, St
         tournamentsList = new ArrayList<>();
 
         mapView = findViewById(R.id.mainMap);
-        //Load map and callback when is loaded to show markers
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS,this);
+        //Load map and callback when is loaded to show markers if not showed before
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS,style -> {
+            loadedMap = true;
+            if(!loadedMarkers && !tournamentsList.isEmpty())
+                drawMap();
+        });
         pointAnnotationManager = MapUtil.initializePointAnnotationManager(mapView);
-
     }
 
     //Add menu action_bar_main in activity
@@ -57,7 +61,7 @@ public class MainView extends AppCompatActivity implements MainContract.View, St
     @Override
     public void listTournaments(List<Tournament> tournamentsList) {
         this.tournamentsList.addAll(tournamentsList);
-        drawMap();
+        if(loadedMap) drawMap();
     }
 
     @Override
@@ -72,20 +76,22 @@ public class MainView extends AppCompatActivity implements MainContract.View, St
 
     //Methods to draw map with markers
     private void drawMap(){
+        loadedMarkers = true;
+        //Set focus & zoom
+        CameraOptions cameraOptions = MapUtil.setCameraOptions();
+        mapView.getMapboxMap().setCamera(cameraOptions);
+
         for(Tournament tournament : this.tournamentsList) {
             addMarker(tournament.getName(), tournament.getLongitude(), tournament.getLatitude());
         }
+
     }
     private void addMarker(String message, float longitude, float latitude) {
-        PointAnnotationOptions marker = new PointAnnotationOptions()
-                .withIconImage(BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker))
-                .withTextField(message)
-                .withPoint(Point.fromLngLat(longitude, latitude));
-        pointAnnotationManager.create(marker);
-    }
+        //Resize icon adjusting it to zoom
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 30, 50, false);
 
-    @Override
-    public void onStyleLoaded(@NonNull Style style) {
-       drawMap();
+        PointAnnotationOptions marker = MapUtil.createMarker(longitude, latitude, resizedBitmap, message);
+        pointAnnotationManager.create(marker);
     }
 }

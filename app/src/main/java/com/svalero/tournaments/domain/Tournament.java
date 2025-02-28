@@ -1,7 +1,5 @@
 package com.svalero.tournaments.domain;
 
-import java.time.LocalDate;
-
 
 public class Tournament {
 
@@ -10,8 +8,8 @@ public class Tournament {
         //Construct add form
         public Tournament(
                 String name,
-                LocalDate initDate,
-                LocalDate endDate,
+                String initDate,
+                String endDate,
                 float prize,
                 String address,
                 String manager,
@@ -32,8 +30,8 @@ public class Tournament {
         public Tournament(
                 long id,
                 String name,
-                LocalDate initDate,
-                LocalDate endDate,
+                String initDate,
+                String endDate,
                 float prize,
                 String address,
                 String manager,
@@ -54,9 +52,9 @@ public class Tournament {
         private long id;
 
         private String name;
-        private LocalDate initDate;
+        private String initDate;
 
-        private LocalDate endDate;
+        private String endDate;
 
         private float prize;
 
@@ -84,19 +82,19 @@ public class Tournament {
                 this.name = name;
         }
 
-        public LocalDate getInitDate() {
+        public String getInitDate() {
                 return initDate;
         }
 
-        public void setInitDate(LocalDate initDate) {
+        public void setInitDate(String initDate) {
                 this.initDate = initDate;
         }
 
-        public LocalDate getEndDate() {
+        public String getEndDate() {
                 return endDate;
         }
 
-        public void setEndDate(LocalDate endDate) {
+        public void setEndDate(String endDate) {
                 this.endDate = endDate;
         }
 

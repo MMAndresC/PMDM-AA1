@@ -10,8 +10,8 @@ public class Match {
     // Construct response API
     public Match(
             long id,
-            LocalDate date,
-            LocalTime hour,
+            String date,
+            String hour,
             String type,
             String mapName,
             int duration,
@@ -32,9 +32,9 @@ public class Match {
 
     private long id;
 
-    private LocalDate date;
+    private String date;
 
-    private LocalTime hour;
+    private String hour;
 
     private String type;
 
