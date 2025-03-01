@@ -15,23 +15,27 @@ public class MainModel implements MainContract.Model {
     @Override
     public void loadTournaments(OnLoadTournamentsListener listener) {
         TournamentApiInterface tournamentApiInterface = TournamentApi.buildInstance();
-        Call<List<Tournament>> getTournamentsCall= tournamentApiInterface.getTournaments();
+        String today = String.valueOf(java.time.LocalDate.now());
+        Call<List<Tournament>> getTournamentsCall= tournamentApiInterface.getNextTournamentsByDate(today);
         getTournamentsCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<List<Tournament>> call, Response<List<Tournament>> response) {
-                if (response.code() == 200) {
+                int statusCode = response.code();
+                if (statusCode >= 200 && statusCode < 300) {
                     listener.onLoadTournamentsSuccess(response.body());
-                } else if (response.code() == 500) {
-                    listener.onLoadTournamentsError("The API is not available.  Please try again");
+                } else if (statusCode >= 400 && statusCode < 500) {
+                        listener.onLoadTournamentsError("Client error: " + statusCode);
+                } else if (statusCode >= 500 && statusCode < 600) {
+                    listener.onLoadTournamentsError("Server error: " + statusCode + " The API is not available.  Please try again");
                 } else {
-                    listener.onLoadTournamentsError(String.valueOf(response.code()));
+                    listener.onLoadTournamentsError("Unexpected response: " + statusCode);
                 }
 
             }
 
             @Override
             public void onFailure(Call<List<Tournament>> call, Throwable t) {
-                listener.onLoadTournamentsError("Could not connect to the data source.  Please check the connection and try again.");
+                listener.onLoadTournamentsError("Request failed: " + t.getMessage());
             }
         });
     }

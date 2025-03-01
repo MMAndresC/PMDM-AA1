@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
@@ -14,6 +16,7 @@ import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 import com.svalero.tournaments.R;
+import com.svalero.tournaments.adapter.MainAdapter;
 import com.svalero.tournaments.contract.MainContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.presenter.MainPresenter;
@@ -30,6 +33,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
     private MainContract.Presenter presenter;
     private boolean loadedMap = false;
     private boolean loadedMarkers = false;
+    private MainAdapter mainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,17 @@ public class MainView extends AppCompatActivity implements MainContract.View{
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();
+
+        RecyclerView nextTournamentsView = findViewById(R.id.next_tournaments_view);
+        //To put scroll in component
+        nextTournamentsView.hasFixedSize();
+        //Set inner layout type
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        nextTournamentsView.setLayoutManager(linearLayoutManager);
+
+        //Link data with adapter and adapter with recycleView
+        mainAdapter = new MainAdapter(tournamentsList);
+        nextTournamentsView.setAdapter(mainAdapter);
 
         mapView = findViewById(R.id.mainMap);
         //Load map and callback when is loaded to show markers if not showed before
@@ -61,6 +76,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
     @Override
     public void listTournaments(List<Tournament> tournamentsList) {
         this.tournamentsList.addAll(tournamentsList);
+        mainAdapter.notifyDataSetChanged();
         if(loadedMap) drawMap();
     }
 
@@ -84,7 +100,6 @@ public class MainView extends AppCompatActivity implements MainContract.View{
         for(Tournament tournament : this.tournamentsList) {
             addMarker(tournament.getName(), tournament.getLongitude(), tournament.getLatitude());
         }
-
     }
     private void addMarker(String message, float longitude, float latitude) {
         //Resize icon adjusting it to zoom

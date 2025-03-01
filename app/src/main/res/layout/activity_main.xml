@@ -27,7 +27,7 @@
         <com.mapbox.maps.MapView
             android:id="@+id/mainMap"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="302dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             app:mapbox_cameraTargetLat="52.52000660"
@@ -37,6 +37,7 @@
         </com.mapbox.maps.MapView>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/next_tournaments_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp" />
