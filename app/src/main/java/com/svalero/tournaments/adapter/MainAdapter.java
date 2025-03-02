@@ -26,7 +26,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
     // Create empty component to insert in recyclerView
     public MainAdapter.MainHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.next_tournament_item, parent, false);
+                .inflate(R.layout.activity_tournament_item, parent, false);
         return new MainHolder(view);
     }
 

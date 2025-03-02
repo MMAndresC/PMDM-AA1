@@ -1,11 +1,14 @@
 package com.svalero.tournaments.view;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +48,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
 
         tournamentsList = new ArrayList<>();
 
-        RecyclerView nextTournamentsView = findViewById(R.id.next_tournaments_view);
+        RecyclerView nextTournamentsView = findViewById(R.id.nextTournamentsRecycler);
         //To put scroll in component
         nextTournamentsView.hasFixedSize();
         //Set inner layout type
@@ -70,6 +73,16 @@ public class MainView extends AppCompatActivity implements MainContract.View{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_main, menu);
+        return true;
+    }
+
+    // Select option in menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuItemTournaments){
+            Intent intent = new Intent(this, ListTournamentsView.class);
+            startActivity(intent);
+        }
         return true;
     }
 
