@@ -26,7 +26,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
     // Create empty component to insert in recyclerView
     public MainAdapter.MainHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_tournament_item, parent, false);
+                .inflate(R.layout.recycle_next_tournament_item, parent, false);
         return new MainHolder(view);
     }
 
@@ -34,8 +34,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
     //Fill component with data
     public void onBindViewHolder(@NonNull MainAdapter.MainHolder holder, int position) {
         holder.itemName.setText(tournamentsList.get(position).getName());
-        String initDate = DateUtil.formatFromString(tournamentsList.get(position).getInitDate());
-        String endDate = DateUtil.formatFromString(tournamentsList.get(position).getEndDate());
+        String outFormat = "dd-MM-yyyy";
+        String initDate = DateUtil.formatFromString(tournamentsList.get(position).getInitDate(), outFormat);
+        String endDate = DateUtil.formatFromString(tournamentsList.get(position).getEndDate(), outFormat);
         String date = initDate + " - " + endDate;
         holder.itemDate.setText(date);
         holder.itemAddress.setText(tournamentsList.get(position).getAddress());

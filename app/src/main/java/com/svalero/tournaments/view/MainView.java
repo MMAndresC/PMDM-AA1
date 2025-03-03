@@ -80,7 +80,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menuItemTournaments){
-            Intent intent = new Intent(this, ListTournamentsView.class);
+            Intent intent = new Intent(this, TournamentsListView.class);
             startActivity(intent);
         }
         return true;
@@ -100,7 +100,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
 
     @Override
     public void showSuccessMessage(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     //Methods to draw map with markers

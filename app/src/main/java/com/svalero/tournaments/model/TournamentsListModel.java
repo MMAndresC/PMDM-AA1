@@ -11,12 +11,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainModel implements MainContract.Model {
+public class TournamentsListModel implements MainContract.Model {
     @Override
     public void loadTournaments(OnLoadTournamentsListener listener) {
-        TournamentApiInterface tournamentApiInterface = TournamentApi.buildInstance();
-        String today = String.valueOf(java.time.LocalDate.now());
-        Call<List<Tournament>> getTournamentsCall= tournamentApiInterface.getNextTournamentsByDate(today);
+        TournamentApiInterface api = TournamentApi.buildInstance();
+        Call<List<Tournament>> getTournamentsCall = api.getTournaments();
         getTournamentsCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<List<Tournament>> call, Response<List<Tournament>> response) {
@@ -24,7 +23,7 @@ public class MainModel implements MainContract.Model {
                 if (statusCode >= 200 && statusCode < 300) {
                     listener.onLoadTournamentsSuccess(response.body());
                 } else if (statusCode >= 400 && statusCode < 500) {
-                        listener.onLoadTournamentsError("Client error: " + statusCode);
+                    listener.onLoadTournamentsError("Client error: " + statusCode);
                 } else if (statusCode >= 500 && statusCode < 600) {
                     listener.onLoadTournamentsError("Server error: " + statusCode + " The API is not available.  Please try again");
                 } else {
