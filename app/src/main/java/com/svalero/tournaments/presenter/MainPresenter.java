@@ -14,7 +14,7 @@ public class MainPresenter implements MainContract.Presenter, MainContract.Model
 
     public MainPresenter(MainContract.View view){
         this.view = view;
-        model = new MainModel();
+        this.model = new MainModel();
     }
     @Override
     public void loadTournaments() {

@@ -11,7 +11,7 @@ import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TournamentsListAdapter;
 import com.svalero.tournaments.contract.MainContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.presenter.TournamentsListPresenter;
+import com.svalero.tournaments.presenter.MainPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,9 @@ public class TournamentsListView extends AppCompatActivity implements MainContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tournaments_list_view);
 
-        presenter = new TournamentsListPresenter(this);
+        presenter = new MainPresenter(this);
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();
