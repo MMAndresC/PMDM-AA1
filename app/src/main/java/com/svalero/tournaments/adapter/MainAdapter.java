@@ -1,5 +1,8 @@
 package com.svalero.tournaments.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.util.DateUtil;
+import com.svalero.tournaments.view.TournamentDetailView;
 
 import java.util.List;
 
@@ -62,6 +66,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
             itemDate = itemView.findViewById(R.id.tournament_date);
             itemAddress = itemView.findViewById(R.id.tournament_address);
             itemPrize = itemView.findViewById(R.id.tournament_prize);
+
+            //Add click listener in every element of recycler view
+            itemView.setOnClickListener(view -> {
+                long tournamentId = tournamentsList.get(getAdapterPosition()).getId();
+                Intent intent = new Intent(itemView.getContext(), TournamentDetailView.class);
+                intent.putExtra("id", tournamentsList.get(getAdapterPosition()).getId());
+                intent.putExtra("name", tournamentsList.get(getAdapterPosition()).getName());
+                intent.putExtra("address", tournamentsList.get(getAdapterPosition()).getAddress());
+                intent.putExtra("initDate", tournamentsList.get(getAdapterPosition()).getInitDate());
+                intent.putExtra("endDate", tournamentsList.get(getAdapterPosition()).getEndDate());
+                intent.putExtra("manager", tournamentsList.get(getAdapterPosition()).getManager());
+                intent.putExtra("prize", tournamentsList.get(getAdapterPosition()).getPrize());
+                intent.putExtra("longitude", tournamentsList.get(getAdapterPosition()).getLongitude());
+                intent.putExtra("latitude", tournamentsList.get(getAdapterPosition()).getLatitude());
+                startActivity(itemView.getContext(), intent, null);
+            });
         }
     }
 }
