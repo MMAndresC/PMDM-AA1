@@ -9,26 +9,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TournamentsListAdapter;
-import com.svalero.tournaments.contract.MainContract;
+import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.presenter.MainPresenter;
+import com.svalero.tournaments.presenter.TournamentsListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TournamentsListView extends AppCompatActivity implements MainContract.View {
+public class TournamentsListView extends AppCompatActivity implements TournamentsListContract.View {
 
     private List<Tournament> tournamentsList;
     private TournamentsListAdapter adapter;
-    private MainContract.Presenter presenter;
+    private TournamentsListContract.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournaments_list_view);
 
-        presenter = new MainPresenter(this);
+        presenter = new TournamentsListPresenter(this);
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();

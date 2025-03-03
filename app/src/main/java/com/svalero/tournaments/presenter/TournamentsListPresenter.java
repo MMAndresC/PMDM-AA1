@@ -1,18 +1,18 @@
 package com.svalero.tournaments.presenter;
 
 
-import com.svalero.tournaments.contract.MainContract;
+import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.model.MainModel;
 
 import java.util.List;
 
-public class MainPresenter implements MainContract.Presenter, MainContract.Model.OnLoadTournamentsListener {
+public class TournamentsListPresenter implements TournamentsListContract.Presenter, TournamentsListContract.Model.OnLoadTournamentsListener {
 
-    private MainContract.View view;
-    private MainContract.Model model;
+    private TournamentsListContract.View view;
+    private TournamentsListContract.Model model;
 
-    public MainPresenter(MainContract.View view){
+    public TournamentsListPresenter(TournamentsListContract.View view){
         this.view = view;
         this.model = new MainModel();
     }

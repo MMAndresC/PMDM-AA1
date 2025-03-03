@@ -20,20 +20,20 @@ import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.MainAdapter;
-import com.svalero.tournaments.contract.MainContract;
+import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.presenter.MainPresenter;
+import com.svalero.tournaments.presenter.TournamentsListPresenter;
 import com.svalero.tournaments.util.MapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainView extends AppCompatActivity implements MainContract.View{
+public class MainView extends AppCompatActivity implements TournamentsListContract.View{
 
     private MapView mapView;
     private PointAnnotationManager pointAnnotationManager;
     private List<Tournament> tournamentsList;
-    private MainContract.Presenter presenter;
+    private TournamentsListContract.Presenter presenter;
     private boolean loadedMap = false;
     private boolean loadedMarkers = false;
     private MainAdapter mainAdapter;
@@ -43,7 +43,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter(this);
+        presenter = new TournamentsListPresenter(this);
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();

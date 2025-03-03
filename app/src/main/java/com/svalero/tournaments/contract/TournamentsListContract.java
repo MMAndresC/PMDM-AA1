@@ -4,7 +4,7 @@ import com.svalero.tournaments.domain.Tournament;
 
 import java.util.List;
 
-public interface MainContract {
+public interface TournamentsListContract {
 
     interface Model {
         interface OnLoadTournamentsListener {
