@@ -1,8 +1,11 @@
 package com.svalero.tournaments.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +43,15 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
 
         adapter = new TournamentsListAdapter(tournamentsList);
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuItemTournaments){
+            Intent intent = new Intent(this, TournamentsListView.class);
+            startActivity(intent);
+        }
+        return true;
     }
 
     @Override
