@@ -3,6 +3,7 @@ package com.svalero.tournaments.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.svalero.tournaments.contract.TournamentWinnersContract;
 import com.svalero.tournaments.domain.TournamentWinners;
 import com.svalero.tournaments.presenter.TournamentWinnersPresenter;
 import com.svalero.tournaments.util.DateUtil;
+import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.util.SearchUtil;
 
 import java.util.List;
@@ -38,7 +40,6 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     }
 
     private long loadDetailData(Intent intent){
-        //TODO con el id del torneo mandar la consulta para encontrar al winner
         long id = intent.getLongExtra("id", -1);
         ((TextView) findViewById(R.id.nameDetailTournament)).setText(extractParam(intent, "name"));
         ((TextView) findViewById(R.id.managerDetailTournament)).setText(extractParam(intent, "manager"));
@@ -78,7 +79,14 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     public void listTournamentWinners(List<TournamentWinners> winnersList) {
         tournamentWinner = SearchUtil.findTournamentWinner(winnersList);
         ((TextView) findViewById(R.id.nameTeamDetailTournament)).setText(tournamentWinner.getNameTeam());
-        //TODO poner imagen del logo del equipo
+        //Select image with team name
+        ImageView imageView = findViewById(R.id.logoTeamDetailTournament);
+        String imageName = ParseUtil.parseImageName(tournamentWinner.getNameTeam());
+        if(imageName != null) {
+            int resID = getResources().getIdentifier(imageName, "drawable", getPackageName());
+            if(resID != 0) imageView.setImageResource(resID);
+            else imageView.setImageResource(R.drawable.no_photos);
+        } else imageView.setImageResource(R.drawable.no_photos);
     }
 
     @Override
