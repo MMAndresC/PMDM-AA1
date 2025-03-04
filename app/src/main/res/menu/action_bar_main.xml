@@ -3,9 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Tournaments"
-        app:showAsAction="always" />
+        android:id="@+id/menuItemTournaments"
+        android:title="@string/tournaments"
+        app:showAsAction="ifRoom" />
     <item
-        android:title="Teams"
-        app:showAsAction="always" />
+        android:id="@+id/menuItemTeams"
+        android:title="@string/teams"
+        app:showAsAction="ifRoom" />
 </menu>

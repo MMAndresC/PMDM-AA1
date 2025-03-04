@@ -1,11 +1,14 @@
 package com.svalero.tournaments.view;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,20 +20,20 @@ import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.MainAdapter;
-import com.svalero.tournaments.contract.MainContract;
+import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.presenter.MainPresenter;
+import com.svalero.tournaments.presenter.TournamentsListPresenter;
 import com.svalero.tournaments.util.MapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainView extends AppCompatActivity implements MainContract.View{
+public class MainView extends AppCompatActivity implements TournamentsListContract.View{
 
     private MapView mapView;
     private PointAnnotationManager pointAnnotationManager;
     private List<Tournament> tournamentsList;
-    private MainContract.Presenter presenter;
+    private TournamentsListContract.Presenter presenter;
     private boolean loadedMap = false;
     private boolean loadedMarkers = false;
     private MainAdapter mainAdapter;
@@ -40,12 +43,12 @@ public class MainView extends AppCompatActivity implements MainContract.View{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter(this);
+        presenter = new TournamentsListPresenter(this);
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();
 
-        RecyclerView nextTournamentsView = findViewById(R.id.next_tournaments_view);
+        RecyclerView nextTournamentsView = findViewById(R.id.nextTournamentsRecycler);
         //To put scroll in component
         nextTournamentsView.hasFixedSize();
         //Set inner layout type
@@ -73,6 +76,16 @@ public class MainView extends AppCompatActivity implements MainContract.View{
         return true;
     }
 
+    // Select option in menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuItemTournaments){
+            Intent intent = new Intent(this, TournamentsListView.class);
+            startActivity(intent);
+        }
+        return true;
+    }
+
     @Override
     public void listTournaments(List<Tournament> tournamentsList) {
         this.tournamentsList.addAll(tournamentsList);
@@ -87,7 +100,7 @@ public class MainView extends AppCompatActivity implements MainContract.View{
 
     @Override
     public void showSuccessMessage(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     //Methods to draw map with markers

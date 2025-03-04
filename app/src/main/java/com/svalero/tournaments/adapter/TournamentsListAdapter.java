@@ -18,34 +18,30 @@ import com.svalero.tournaments.view.TournamentDetailView;
 
 import java.util.List;
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
+public class TournamentsListAdapter extends RecyclerView.Adapter<TournamentsListAdapter.TournamentHolder>{
 
     private List<Tournament> tournamentsList;
-    public MainAdapter(List<Tournament> tournamentsList) {
-        this.tournamentsList = tournamentsList;
+
+    public TournamentsListAdapter(List<Tournament> tournamentList){
+        this.tournamentsList = tournamentList;
     }
 
     @NonNull
     @Override
-    // Create empty component to insert in recyclerView
-    public MainAdapter.MainHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TournamentsListAdapter.TournamentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycle_next_tournament_item, parent, false);
-        return new MainHolder(view);
+                .inflate(R.layout.recycle_tournament_item, parent, false);
+        return new TournamentHolder(view);
     }
 
     @Override
-    //Fill component with data
-    public void onBindViewHolder(@NonNull MainAdapter.MainHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TournamentsListAdapter.TournamentHolder holder, int position) {
         holder.itemName.setText(tournamentsList.get(position).getName());
-        String outFormat = "dd-MM-yyyy";
-        String initDate = DateUtil.formatFromString(tournamentsList.get(position).getInitDate(), outFormat);
-        String endDate = DateUtil.formatFromString(tournamentsList.get(position).getEndDate(), outFormat);
-        String date = initDate + " - " + endDate;
-        holder.itemDate.setText(date);
         holder.itemAddress.setText(tournamentsList.get(position).getAddress());
-        String prize = holder.itemView.getContext().getString(R.string.prize) + " " +  tournamentsList.get(position).getPrize() + " $";
-        holder.itemPrize.setText(prize);
+        String stringDate = tournamentsList.get(position).getInitDate();
+        String outFormat = "MMM dd, yyyy";
+        String date = DateUtil.formatFromString(stringDate, outFormat);
+        holder.itemDate.setText(date);
     }
 
     @Override
@@ -53,23 +49,21 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
         return tournamentsList.size();
     }
 
-    public class MainHolder extends RecyclerView.ViewHolder {
+    public class TournamentHolder extends RecyclerView.ViewHolder {
 
-        private TextView itemName;
         private TextView itemDate;
-        private TextView itemPrize;
         private TextView itemAddress;
-        public MainHolder(@NonNull View itemView) {
+        private TextView itemName;
+
+        public TournamentHolder(@NonNull View itemView) {
             super(itemView);
 
-            itemName = itemView.findViewById(R.id.tournament_name);
-            itemDate = itemView.findViewById(R.id.tournament_date);
-            itemAddress = itemView.findViewById(R.id.tournament_address);
-            itemPrize = itemView.findViewById(R.id.tournament_prize);
+            this.itemDate = itemView.findViewById(R.id.dateTournament);
+            this.itemAddress = itemView.findViewById(R.id.addressTournament);
+            this.itemName = itemView.findViewById(R.id.nameTournament);
 
             //Add click listener in every element of recycler view
             itemView.setOnClickListener(view -> {
-                long tournamentId = tournamentsList.get(getAdapterPosition()).getId();
                 Intent intent = new Intent(itemView.getContext(), TournamentDetailView.class);
                 intent.putExtra("id", tournamentsList.get(getAdapterPosition()).getId());
                 intent.putExtra("name", tournamentsList.get(getAdapterPosition()).getName());

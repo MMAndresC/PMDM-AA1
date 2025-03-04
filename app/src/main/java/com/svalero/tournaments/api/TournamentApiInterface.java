@@ -1,6 +1,7 @@
 package com.svalero.tournaments.api;
 
 import com.svalero.tournaments.domain.Tournament;
+import com.svalero.tournaments.domain.TournamentWinners;
 
 import java.util.List;
 
@@ -15,8 +16,11 @@ public interface TournamentApiInterface {
     Call<List<Tournament>> getTournaments();
 
     @GET("tournaments/{id}")
-    Call<Tournament> getTournament(@Path("id") int id);
+    Call<Tournament> getTournament(@Path("id") long id);
 
     @GET("tournaments")
     Call<List<Tournament>> getNextTournamentsByDate(@Query("initDate") String initDate);
+
+    @GET("tournaments/{id}/match-winners")
+    Call<List<TournamentWinners>> getTournamentWinners(@Path("id") long id);
 }
