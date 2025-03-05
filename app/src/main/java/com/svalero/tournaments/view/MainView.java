@@ -1,8 +1,6 @@
 package com.svalero.tournaments.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,18 +12,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mapbox.maps.CameraOptions;
-import com.mapbox.maps.MapView;
-import com.mapbox.maps.Style;
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.MainAdapter;
 import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.presenter.TournamentsListPresenter;
-import com.svalero.tournaments.util.MapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +73,17 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
         mainAdapter.notifyDataSetChanged();
 
         // Create map fragment with api data
-        MapFragment mapFragment = MapFragment.newInstance(new ArrayList<>(tournamentsList));
+        double focusLong =  -0.87734;
+        double focusLat = 41.65606;
+        String width = "match_parent";
+        String height = "302dp";
+        MapFragment mapFragment = MapFragment.newInstance(
+                new ArrayList<>(tournamentsList),
+                focusLong,
+                focusLat,
+                width,
+                height
+        );
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentMapMain, mapFragment);
         transaction.commitNow();

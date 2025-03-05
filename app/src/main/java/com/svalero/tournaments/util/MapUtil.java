@@ -1,5 +1,6 @@
 package com.svalero.tournaments.util;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 
 import com.mapbox.geojson.Point;
@@ -21,9 +22,9 @@ public class MapUtil {
 
     }
 
-    public static CameraOptions setCameraOptions(){
+    public static CameraOptions setCameraOptions(double longitude, double latitude){
         return new CameraOptions.Builder()
-            .center(Point.fromLngLat(-0.87734, 41.65606))
+            .center(Point.fromLngLat(longitude, latitude))
             .zoom(2.0)
             .build();
     }
@@ -42,5 +43,9 @@ public class MapUtil {
                 .withTextHaloColor("white")
                 .withTextHaloWidth(1.0f)
                 .withPoint(Point.fromLngLat(longitude, latitude));
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

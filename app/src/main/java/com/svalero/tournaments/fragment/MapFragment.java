@@ -29,9 +29,17 @@ import java.util.ArrayList;
 public class MapFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "tournamentsList";
+    private static final String ARG_PARAM2 = "focusLong";
+    private static final String ARG_PARAM3 = "focusLat";
+    private static final String ARG_PARAM4 = "height";
+    private static final String ARG_PARAM5 = "width";
     private MapView mapView;
     private PointAnnotationManager pointAnnotationManager;
     private ArrayList<Tournament> tournamentsList = new ArrayList<>();
+    private double focusLong;
+    private double focusLat;
+    private String width;
+    private String height;
 
 
     public MapFragment() {
@@ -39,10 +47,20 @@ public class MapFragment extends Fragment {
     }
 
 
-    public static MapFragment newInstance(ArrayList<Tournament> tournamentsList) {
+    public static MapFragment newInstance(
+            ArrayList<Tournament> tournamentsList,
+            double focusLong,
+            double focusLat,
+            String width,
+            String height
+    ) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, tournamentsList);
+        args.putDouble(ARG_PARAM2, focusLong);
+        args.putDouble(ARG_PARAM3, focusLat);
+        args.putString(ARG_PARAM4, height);
+        args.putString(ARG_PARAM5, width);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,6 +75,10 @@ public class MapFragment extends Fragment {
 
         if (getArguments() != null) {
             tournamentsList = (ArrayList<Tournament>) getArguments().getSerializable(ARG_PARAM1);
+            focusLong = (double) getArguments().getDouble(ARG_PARAM2);
+            focusLat = (double) getArguments().getDouble(ARG_PARAM3);
+            height = (String) getArguments().getString(ARG_PARAM4);
+            width = (String) getArguments().getString(ARG_PARAM5);
         }
 
         mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> drawMap());
@@ -66,15 +88,19 @@ public class MapFragment extends Fragment {
 
     private void drawMap(){
         //Set focus & zoom
-        CameraOptions cameraOptions = MapUtil.setCameraOptions();
+        CameraOptions cameraOptions = MapUtil.setCameraOptions(focusLong, focusLat);
         mapView.getMapboxMap().setCamera(cameraOptions);
+
+        //Set width & height map
+        setMapSize();
 
         for(Tournament tournament : tournamentsList) {
             addMarker(tournament.getName(), tournament.getLongitude(), tournament.getLatitude());
         }
+        int a = 0;
     }
 
-    private void addMarker(String message, float longitude, float latitude) {
+    private void addMarker(String message, double longitude, double latitude) {
         //Resize icon adjusting it to zoom
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 30, 50, false);
@@ -82,4 +108,29 @@ public class MapFragment extends Fragment {
         PointAnnotationOptions marker = MapUtil.createMarker(longitude, latitude, resizedBitmap, message);
         pointAnnotationManager.create(marker);
     }
+
+    public void setMapSize() {
+        if (mapView != null) {
+            ViewGroup.LayoutParams params = mapView.getLayoutParams();
+
+            if(width == null) return;
+
+            if (width.equals("match_parent")) {
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            } else {
+                params.width = MapUtil.dpToPx(Integer.parseInt(width.replace("dp", "")));
+            }
+
+            if(height == null) return;
+
+           if (height.equals("wrap_content")) {
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            } else {
+                params.height = MapUtil.dpToPx(Integer.parseInt(height.replace("dp", "")));
+            }
+
+            mapView.setLayoutParams(params);
+        }
+    }
+
 }

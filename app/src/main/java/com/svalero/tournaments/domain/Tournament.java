@@ -15,8 +15,8 @@ public class Tournament implements Serializable {
                 float prize,
                 String address,
                 String manager,
-                float latitude,
-                float longitude
+                double latitude,
+                double longitude
         ){
                 this.name = name;
                 this.initDate = initDate;
@@ -37,8 +37,8 @@ public class Tournament implements Serializable {
                 float prize,
                 String address,
                 String manager,
-                float latitude,
-                float longitude
+                double latitude,
+                double longitude
         ){
                 this.id = id;
                 this.name = name;
@@ -64,9 +64,9 @@ public class Tournament implements Serializable {
 
         private String manager;
 
-        private float latitude;
+        private double latitude;
 
-        private float longitude;
+        private double longitude;
 
         public long getId() {
                 return id;
@@ -124,19 +124,19 @@ public class Tournament implements Serializable {
                 this.manager = manager;
         }
 
-        public float getLatitude() {
+        public double getLatitude() {
                 return latitude;
         }
 
-        public void setLatitude(float latitude) {
+        public void setLatitude(double latitude) {
                 this.latitude = latitude;
         }
 
-        public float getLongitude() {
+        public double getLongitude() {
                 return longitude;
         }
 
-        public void setLongitude(float longitude) {
+        public void setLongitude(double longitude) {
                 this.longitude = longitude;
         }
 }

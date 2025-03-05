@@ -43,13 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentMapDetail"
+                android:name="com.svalero.tournaments.fragment.MapFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </FrameLayout>
 
         <TextView
             android:id="@+id/managerDetailTournament"
