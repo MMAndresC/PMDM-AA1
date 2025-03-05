@@ -1,7 +1,9 @@
 package com.svalero.tournaments.domain;
 
 
-public class Tournament {
+import java.io.Serializable;
+
+public class Tournament implements Serializable {
 
         public Tournament(){}
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.MainAdapter;
 import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
+import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.presenter.TournamentsListPresenter;
 import com.svalero.tournaments.util.MapUtil;
 
@@ -30,12 +32,8 @@ import java.util.List;
 
 public class MainView extends AppCompatActivity implements TournamentsListContract.View{
 
-    private MapView mapView;
-    private PointAnnotationManager pointAnnotationManager;
     private List<Tournament> tournamentsList;
     private TournamentsListContract.Presenter presenter;
-    private boolean loadedMap = false;
-    private boolean loadedMarkers = false;
     private MainAdapter mainAdapter;
 
     @Override
@@ -58,15 +56,6 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
         //Link data with adapter and adapter with recycleView
         mainAdapter = new MainAdapter(tournamentsList);
         nextTournamentsView.setAdapter(mainAdapter);
-
-        mapView = findViewById(R.id.mainMap);
-        //Load map and callback when is loaded to show markers if not showed before
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS,style -> {
-            loadedMap = true;
-            if(!loadedMarkers && !tournamentsList.isEmpty())
-                drawMap();
-        });
-        pointAnnotationManager = MapUtil.initializePointAnnotationManager(mapView);
     }
 
     //Add menu action_bar_main in activity
@@ -90,7 +79,12 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
     public void listTournaments(List<Tournament> tournamentsList) {
         this.tournamentsList.addAll(tournamentsList);
         mainAdapter.notifyDataSetChanged();
-        if(loadedMap) drawMap();
+
+        // Create map fragment with api data
+        MapFragment mapFragment = MapFragment.newInstance(new ArrayList<>(tournamentsList));
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentMapMain, mapFragment);
+        transaction.commitNow();
     }
 
     @Override
@@ -101,25 +95,5 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
     @Override
     public void showSuccessMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    //Methods to draw map with markers
-    private void drawMap(){
-        loadedMarkers = true;
-        //Set focus & zoom
-        CameraOptions cameraOptions = MapUtil.setCameraOptions();
-        mapView.getMapboxMap().setCamera(cameraOptions);
-
-        for(Tournament tournament : this.tournamentsList) {
-            addMarker(tournament.getName(), tournament.getLongitude(), tournament.getLatitude());
-        }
-    }
-    private void addMarker(String message, float longitude, float latitude) {
-        //Resize icon adjusting it to zoom
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 30, 50, false);
-
-        PointAnnotationOptions marker = MapUtil.createMarker(longitude, latitude, resizedBitmap, message);
-        pointAnnotationManager.create(marker);
     }
 }
