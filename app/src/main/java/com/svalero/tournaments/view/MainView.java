@@ -31,7 +31,7 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_view);
 
         presenter = new TournamentsListPresenter(this);
         presenter.loadTournaments();

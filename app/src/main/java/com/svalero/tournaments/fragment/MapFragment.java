@@ -1,22 +1,28 @@
 package com.svalero.tournaments.fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
 import com.mapbox.maps.Style;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
+import com.mapbox.maps.plugin.gestures.GesturesPlugin;
+import com.mapbox.maps.plugin.gestures.GesturesUtils;
+import com.mapbox.maps.plugin.gestures.OnMapClickListener;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Tournament;
+import com.svalero.tournaments.interfaces.OnCoordinatesUpdatedListener;
 import com.svalero.tournaments.util.MapUtil;
 
 import java.util.ArrayList;
@@ -26,7 +32,7 @@ import java.util.ArrayList;
  * Use the {@link MapFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements OnMapClickListener {
 
     private static final String ARG_PARAM1 = "tournamentsList";
     private static final String ARG_PARAM2 = "focusLong";
@@ -40,6 +46,8 @@ public class MapFragment extends Fragment {
     private double focusLat;
     private String width;
     private String height;
+    private OnCoordinatesUpdatedListener callback;
+    private GesturesPlugin gesturesPlugin;
 
 
     public MapFragment() {
@@ -75,15 +83,26 @@ public class MapFragment extends Fragment {
 
         if (getArguments() != null) {
             tournamentsList = (ArrayList<Tournament>) getArguments().getSerializable(ARG_PARAM1);
-            focusLong = (double) getArguments().getDouble(ARG_PARAM2);
-            focusLat = (double) getArguments().getDouble(ARG_PARAM3);
-            height = (String) getArguments().getString(ARG_PARAM4);
-            width = (String) getArguments().getString(ARG_PARAM5);
+            focusLong = getArguments().getDouble(ARG_PARAM2);
+            focusLat = getArguments().getDouble(ARG_PARAM3);
+            height = getArguments().getString(ARG_PARAM4);
+            width = getArguments().getString(ARG_PARAM5);
         }
 
-        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> drawMap());
+        mapView.getMapboxMap().loadStyleUri(Style.MAPBOX_STREETS, style -> {
+            drawMap();
+            if (callback != null) initializeGesturesPlugin();
+        });
         pointAnnotationManager = MapUtil.initializePointAnnotationManager(mapView);
         return view;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnCoordinatesUpdatedListener) {
+            callback = (OnCoordinatesUpdatedListener) context;
+        }
     }
 
     private void drawMap(){
@@ -97,7 +116,6 @@ public class MapFragment extends Fragment {
         for(Tournament tournament : tournamentsList) {
             addMarker(tournament.getName(), tournament.getLongitude(), tournament.getLatitude());
         }
-        int a = 0;
     }
 
     private void addMarker(String message, double longitude, double latitude) {
@@ -133,4 +151,15 @@ public class MapFragment extends Fragment {
         }
     }
 
+    private void initializeGesturesPlugin() {
+        gesturesPlugin = GesturesUtils.getGestures(mapView);
+        gesturesPlugin.addOnMapClickListener(this);
+    }
+
+    @Override
+    public boolean onMapClick(@NonNull Point point) {
+        addMarker("", point.longitude(), point.latitude());
+        callback.onCoordinatesUpdated(point.latitude(), point.longitude());
+        return false;
+    }
 }

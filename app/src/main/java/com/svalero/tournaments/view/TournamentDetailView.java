@@ -33,7 +33,7 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tournament_detail);
+        setContentView(R.layout.activity_tournament_detail_view);
         Intent intent = getIntent();
         long tournamentId = loadDetailData(intent);
         if(tournamentId != -1){
@@ -67,7 +67,6 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
         tournament.setName(name);
         ArrayList<Tournament> tournamentsList = new ArrayList<>();
         tournamentsList.add(tournament);
-        int a = 0;
         MapFragment mapFragment = MapFragment.newInstance(
                 tournamentsList,
                 longitude,

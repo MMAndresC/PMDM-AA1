@@ -44,7 +44,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
         String date = initDate + " - " + endDate;
         holder.itemDate.setText(date);
         holder.itemAddress.setText(tournamentsList.get(position).getAddress());
-        String prize = holder.itemView.getContext().getString(R.string.prize) + " " +  tournamentsList.get(position).getPrize() + " $";
+        String prize = holder.itemView.getContext().getString(R.string.prize_header) + " " +  tournamentsList.get(position).getPrize() + " $";
         holder.itemPrize.setText(prize);
     }
 
