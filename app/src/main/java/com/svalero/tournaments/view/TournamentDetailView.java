@@ -82,8 +82,8 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     private String formatDate(Intent intent){
         String initDate = extractParam(intent, "initDate");
         String endDate = extractParam(intent, "endDate");
-        return DateUtil.formatFromString(initDate, "dd-MM-yyyy") + " / "
-                + DateUtil.formatFromString(endDate, "dd-MM-yyyy");
+        return DateUtil.formatFromString(initDate, "dd-MM-yyyy", "yyyy-MM-dd") + " / "
+                + DateUtil.formatFromString(endDate, "dd-MM-yyyy", "yyyy-MM-dd");
     }
 
     private String extractParam(Intent intent, String name){

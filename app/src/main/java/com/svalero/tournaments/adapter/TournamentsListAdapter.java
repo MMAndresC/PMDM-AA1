@@ -40,7 +40,8 @@ public class TournamentsListAdapter extends RecyclerView.Adapter<TournamentsList
         holder.itemAddress.setText(tournamentsList.get(position).getAddress());
         String stringDate = tournamentsList.get(position).getInitDate();
         String outFormat = "MMM dd, yyyy";
-        String date = DateUtil.formatFromString(stringDate, outFormat);
+        String inPattern = "yyyy-MM-dd";
+        String date = DateUtil.formatFromString(stringDate, outFormat, inPattern);
         holder.itemDate.setText(date);
     }
 

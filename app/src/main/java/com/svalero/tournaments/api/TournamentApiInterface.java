@@ -6,7 +6,9 @@ import com.svalero.tournaments.domain.TournamentWinners;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -23,4 +25,7 @@ public interface TournamentApiInterface {
 
     @GET("tournaments/{id}/match-winners")
     Call<List<TournamentWinners>> getTournamentWinners(@Path("id") long id);
+
+    @POST("tournaments")
+    Call<Tournament> addTournament(@Body Tournament tournament);
 }

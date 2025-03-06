@@ -15,6 +15,7 @@ import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
 import com.mapbox.maps.MapView;
 import com.mapbox.maps.Style;
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotation;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager;
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions;
 import com.mapbox.maps.plugin.gestures.GesturesPlugin;
@@ -48,6 +49,7 @@ public class MapFragment extends Fragment implements OnMapClickListener {
     private String height;
     private OnCoordinatesUpdatedListener callback;
     private GesturesPlugin gesturesPlugin;
+    private PointAnnotation currentPoint;
 
 
     public MapFragment() {
@@ -123,8 +125,8 @@ public class MapFragment extends Fragment implements OnMapClickListener {
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.red_marker);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 30, 50, false);
 
-        PointAnnotationOptions marker = MapUtil.createMarker(longitude, latitude, resizedBitmap, message);
-        pointAnnotationManager.create(marker);
+        PointAnnotationOptions markerOptions = MapUtil.createMarker(longitude, latitude, resizedBitmap, message);
+        currentPoint = pointAnnotationManager.create(markerOptions);
     }
 
     public void setMapSize() {
@@ -158,6 +160,9 @@ public class MapFragment extends Fragment implements OnMapClickListener {
 
     @Override
     public boolean onMapClick(@NonNull Point point) {
+        if (currentPoint != null) {
+            pointAnnotationManager.delete(currentPoint);
+        }
         addMarker("", point.longitude(), point.latitude());
         callback.onCoordinatesUpdated(point.latitude(), point.longitude());
         return false;
