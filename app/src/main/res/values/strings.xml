@@ -18,4 +18,9 @@
     <string name="prize">Prize</string>
     <string name="save">Save</string>
     <string name="missing_fields">Missing required fields</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in_or_register">SIGN IN OR REGISTER</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
 </resources>

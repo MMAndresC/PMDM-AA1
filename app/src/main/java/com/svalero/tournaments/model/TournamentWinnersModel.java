@@ -20,7 +20,7 @@ public class TournamentWinnersModel implements TournamentWinnersContract.Model {
     }
     @Override
     public void loadTournamentWinners(OnLoadTournamentWinnersListener listener) {
-        TournamentApiInterface api = TournamentApi.buildInstance();
+        TournamentApiInterface api = TournamentApi.getTournamentApi();
         Call<List<TournamentWinners>> getTournamentWinnersCall = api.getTournamentWinners(tournamentId);
         getTournamentWinnersCall.enqueue(new Callback<>() {
             @Override

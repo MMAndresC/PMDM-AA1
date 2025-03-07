@@ -4,10 +4,18 @@
 
     <item
         android:id="@+id/menuItemTournaments"
+        android:icon="@drawable/icon_tournament"
         android:title="@string/tournaments"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menuItemTeams"
+        android:icon="@drawable/icon_team"
         android:title="@string/teams"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemSignIn"
+        android:title="@string/sign_in" />
+    <item
+        android:id="@+id/menuItemRegister"
+        android:title="@string/register" />
 </menu>

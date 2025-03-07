@@ -12,7 +12,7 @@ import retrofit2.Response;
 public class TournamentAddModel implements TournamentAddContract.Model {
     @Override
     public void saveTournament(Tournament tournament, OnSaveTournamentListener listener) {
-        TournamentApiInterface api = TournamentApi.buildInstance();
+        TournamentApiInterface api = TournamentApi.getTournamentApi();
         Call<Tournament> getTournamentCall = api.addTournament(tournament);
         getTournamentCall.enqueue(new Callback<>() {
             @Override
