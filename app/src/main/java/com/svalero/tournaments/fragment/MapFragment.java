@@ -164,7 +164,7 @@ public class MapFragment extends Fragment implements OnMapClickListener {
             pointAnnotationManager.delete(currentPoint);
         }
         addMarker("", point.longitude(), point.latitude());
-        callback.onCoordinatesUpdated(point.latitude(), point.longitude());
+        callback.onCoordinatesUpdated(point.longitude(), point.latitude());
         return false;
     }
 }
