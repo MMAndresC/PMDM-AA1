@@ -27,17 +27,11 @@
             android:layout_height="wrap_content"
             android:text="@string/next_tournaments" />
 
-        <com.mapbox.maps.MapView
-            android:id="@+id/mainMap"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentMapMain"
+            android:name="com.svalero.tournaments.fragment.MapFragment"
             android:layout_width="match_parent"
-            android:layout_height="302dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            app:mapbox_cameraTargetLat="52.52000660"
-            app:mapbox_cameraTargetLng="13.40495400"
-            app:mapbox_cameraZoom="1.0">
-
-        </com.mapbox.maps.MapView>
+            android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/nextTournamentsRecycler"

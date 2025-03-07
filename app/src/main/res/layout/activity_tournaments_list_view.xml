@@ -9,6 +9,7 @@
     tools:context=".view.TournamentsListView">
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -27,7 +28,7 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:checkedButton="@id/orderNewest"
                 android:orientation="horizontal">
 
@@ -59,6 +60,19 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp" />
+
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTournamentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:contentDescription="@string/add_new_tournament"
+        android:onClick="onClickAddTournament"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

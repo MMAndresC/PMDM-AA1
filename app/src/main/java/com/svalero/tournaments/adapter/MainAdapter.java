@@ -39,12 +39,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
     public void onBindViewHolder(@NonNull MainAdapter.MainHolder holder, int position) {
         holder.itemName.setText(tournamentsList.get(position).getName());
         String outFormat = "dd-MM-yyyy";
-        String initDate = DateUtil.formatFromString(tournamentsList.get(position).getInitDate(), outFormat);
-        String endDate = DateUtil.formatFromString(tournamentsList.get(position).getEndDate(), outFormat);
+        String inPattern = "yyyy-MM-dd";
+        String initDate = DateUtil.formatFromString(tournamentsList.get(position).getInitDate(), outFormat, inPattern);
+        String endDate = DateUtil.formatFromString(tournamentsList.get(position).getEndDate(), outFormat, inPattern);
         String date = initDate + " - " + endDate;
         holder.itemDate.setText(date);
         holder.itemAddress.setText(tournamentsList.get(position).getAddress());
-        String prize = holder.itemView.getContext().getString(R.string.prize) + " " +  tournamentsList.get(position).getPrize() + " $";
+        String prize = holder.itemView.getContext().getString(R.string.prize_header) + " " +  tournamentsList.get(position).getPrize() + " $";
         holder.itemPrize.setText(prize);
     }
 

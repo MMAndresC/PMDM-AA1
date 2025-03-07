@@ -9,16 +9,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.contract.TournamentWinnersContract;
+import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.domain.TournamentWinners;
+import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.presenter.TournamentWinnersPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.util.SearchUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TournamentDetailView extends AppCompatActivity implements TournamentWinnersContract.View {
@@ -29,7 +33,7 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tournament_detail);
+        setContentView(R.layout.activity_tournament_detail_view);
         Intent intent = getIntent();
         long tournamentId = loadDetailData(intent);
         if(tournamentId != -1){
@@ -41,23 +45,45 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
 
     private long loadDetailData(Intent intent){
         long id = intent.getLongExtra("id", -1);
-        ((TextView) findViewById(R.id.nameDetailTournament)).setText(extractParam(intent, "name"));
+        String name = extractParam(intent, "name");
+        ((TextView) findViewById(R.id.nameDetailTournament)).setText(name);
         ((TextView) findViewById(R.id.managerDetailTournament)).setText(extractParam(intent, "manager"));
         ((TextView) findViewById(R.id.addressDetailTournament)).setText(extractParam(intent, "address"));
         ((TextView) findViewById(R.id.dateDetailTournament)).setText(formatDate(intent));
         String prize = intent.getFloatExtra("prize", 0) + " €";
         ((TextView) findViewById(R.id.prizeDetailTournament)).setText(prize);
-        float latitude = intent.getFloatExtra("latitude", 0);
-        float longitude = intent.getFloatExtra("longitude", 0);
-        //TODO pasarle al mapa las coordenadas, el valor por defecto centrarlo en Zgz
+        double latitude = intent.getDoubleExtra("latitude", 0);
+        double longitude = intent.getDoubleExtra("longitude", 0);
+        createMapFragment(longitude, latitude, name);
         return id;
+    }
+
+    private void createMapFragment(double longitude, double latitude, String name){
+        String width = "150dp";
+        String height = "150dp";
+        Tournament tournament = new Tournament();
+        tournament.setLatitude(latitude);
+        tournament.setLongitude(longitude);
+        tournament.setName(name);
+        ArrayList<Tournament> tournamentsList = new ArrayList<>();
+        tournamentsList.add(tournament);
+        MapFragment mapFragment = MapFragment.newInstance(
+                tournamentsList,
+                longitude,
+                latitude,
+                width,
+                height
+        );
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentMapDetail, mapFragment);
+        transaction.commitNow();
     }
 
     private String formatDate(Intent intent){
         String initDate = extractParam(intent, "initDate");
         String endDate = extractParam(intent, "endDate");
-        return DateUtil.formatFromString(initDate, "dd-MM-yyyy") + " / "
-                + DateUtil.formatFromString(endDate, "dd-MM-yyyy");
+        return DateUtil.formatFromString(initDate, "dd-MM-yyyy", "yyyy-MM-dd") + " / "
+                + DateUtil.formatFromString(endDate, "dd-MM-yyyy", "yyyy-MM-dd");
     }
 
     private String extractParam(Intent intent, String name){

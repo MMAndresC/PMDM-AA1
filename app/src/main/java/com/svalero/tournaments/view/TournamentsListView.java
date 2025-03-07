@@ -3,6 +3,7 @@ package com.svalero.tournaments.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,12 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
             startActivity(intent);
         }
         return true;
+    }
+
+    //
+    public void onClickAddTournament(View view){
+        Intent intent = new Intent(this, TournamentFormView.class);
+        startActivity(intent);
     }
 
     @Override
