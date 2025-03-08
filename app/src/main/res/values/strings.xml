@@ -23,4 +23,8 @@
     <string name="sign_in_or_register">SIGN IN OR REGISTER</string>
     <string name="sign_in">Sign in</string>
     <string name="register">Register</string>
+    <string name="user_name">User name</string>
+    <string name="actions">Actions</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
 </resources>

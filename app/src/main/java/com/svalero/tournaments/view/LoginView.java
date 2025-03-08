@@ -1,6 +1,7 @@
 package com.svalero.tournaments.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -44,18 +45,23 @@ public class LoginView extends AppCompatActivity implements UserLoginContract.Vi
 
     private User validateUserData(){
         if(action != null){
-            String email = ((EditText) findViewById(R.id.email)).getText().toString();
+            String username = ((EditText) findViewById(R.id.username)).getText().toString();
             String password = ((EditText) findViewById(R.id.password)).getText().toString();
-            if(!email.isBlank() && !password.isBlank())
-             return new User(email, password);
+            if(!username.isBlank() && !password.isBlank())
+             return new User(username, password);
         }
         return new User();
     }
 
     @Override
     public void getToken(TokenResponse token) {
-        //TODO guardar token
         Toast.makeText(this, token.getToken(), Toast.LENGTH_LONG).show();
+        // Save token
+        SharedPreferences sharedPreferences = getSharedPreferences("AppTournament", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token", token.getToken());
+        editor.apply();
+
     }
 
     @Override

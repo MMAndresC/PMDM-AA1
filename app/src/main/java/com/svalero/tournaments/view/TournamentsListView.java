@@ -2,6 +2,8 @@ package com.svalero.tournaments.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
     private List<Tournament> tournamentsList;
     private TournamentsListAdapter adapter;
     private TournamentsListContract.Presenter presenter;
+    private Tournament selectedTournament;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new TournamentsListAdapter(tournamentsList);
+        adapter = new TournamentsListAdapter(tournamentsList, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -55,14 +58,50 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
         return true;
     }
 
-    //
+    //Register context menu
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_context_menu_tournament, menu);
+    }
+
+    //Check selected option in context menu
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        //WITH SWITCH NOT WORK
+        if (id == R.id.editMenuTournament) {
+
+            return true;
+        } else if (id == R.id.removeMenuTournament) {
+            removeTournament();
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void removeTournament() {
+        if (selectedTournament != null) {
+            //presenter.removeTournament(selectedTournament.getId());
+            tournamentsList.remove(selectedTournament);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Tournament deleted with id " + selectedTournament.getId(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void onClickAddTournament(View view){
         Intent intent = new Intent(this, TournamentFormView.class);
         startActivity(intent);
     }
 
+    public void setSelectedTournament(Tournament tournament) {
+        this.selectedTournament = tournament;
+    }
+
     @Override
     public void listTournaments(List<Tournament> tournamentsList) {
+        this.tournamentsList.clear();
         this.tournamentsList.addAll(tournamentsList);
         adapter.notifyDataSetChanged();
     }
