@@ -40,7 +40,6 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
             presenter = new TournamentWinnersPresenter(this, tournamentId);
             presenter.loadTournamentWinners();
         }
-
     }
 
     private long loadDetailData(Intent intent){
@@ -68,11 +67,11 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
         ArrayList<Tournament> tournamentsList = new ArrayList<>();
         tournamentsList.add(tournament);
         MapFragment mapFragment = MapFragment.newInstance(
-                tournamentsList,
-                longitude,
-                latitude,
-                width,
-                height
+            tournamentsList,
+            longitude,
+            latitude,
+            width,
+            height
         );
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentMapDetail, mapFragment);

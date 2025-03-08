@@ -63,6 +63,14 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
         if(item.getItemId() == R.id.menuItemTournaments){
             Intent intent = new Intent(this, TournamentsListView.class);
             startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemSignIn){
+            Intent intent = new Intent(this, LoginView.class);
+            intent.putExtra("action", "signIn");
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemRegister){
+            Intent intent = new Intent(this, LoginView.class);
+            intent.putExtra("action", "register");
+            startActivity(intent);
         }
         return true;
     }

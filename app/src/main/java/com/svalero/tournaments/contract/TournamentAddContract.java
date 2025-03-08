@@ -13,7 +13,6 @@ public interface TournamentAddContract {
     }
 
     interface View {
-      /*  void addTournament(Tournament tournament);*/
         void showErrorMessage(String message);
         void showSuccessMessage(String message);
     }

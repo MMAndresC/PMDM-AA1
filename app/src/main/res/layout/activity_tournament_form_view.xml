@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/prize"
-            android:inputType="text"
+            android:inputType="number|numberDecimal"
             android:minHeight="48dp" />
 
         <androidx.fragment.app.FragmentContainerView

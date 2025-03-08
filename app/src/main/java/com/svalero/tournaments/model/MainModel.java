@@ -14,7 +14,7 @@ import retrofit2.Response;
 public class MainModel implements TournamentsListContract.Model {
     @Override
     public void loadTournaments(OnLoadTournamentsListener listener) {
-        TournamentApiInterface tournamentApiInterface = TournamentApi.buildInstance();
+        TournamentApiInterface tournamentApiInterface = TournamentApi.getTournamentApi();
         String today = String.valueOf(java.time.LocalDate.now());
         Call<List<Tournament>> getTournamentsCall= tournamentApiInterface.getNextTournamentsByDate(today);
         getTournamentsCall.enqueue(new Callback<>() {
