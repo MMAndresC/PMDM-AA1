@@ -21,7 +21,7 @@ public class UserLoginPresenter implements UserLoginContract.Presenter, UserLogi
 
     @Override
     public void onLoginUserSuccess(TokenResponse token) {
-        view.showSuccessMessage("User logged");
+        view.getSessionToken(token);
     }
 
     @Override

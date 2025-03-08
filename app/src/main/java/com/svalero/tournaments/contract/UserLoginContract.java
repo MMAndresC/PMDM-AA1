@@ -19,7 +19,7 @@ public interface UserLoginContract {
 
     interface View {
 
-        void getToken(TokenResponse token);
+        void getSessionToken(TokenResponse token);
         void showErrorMessage(String message);
         void showSuccessMessage(String message);
     }

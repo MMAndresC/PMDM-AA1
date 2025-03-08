@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -30,6 +31,6 @@ public interface TournamentApiInterface {
     @POST("tournaments")
     Call<Tournament> addTournament(@Body Tournament tournament);
 
-    @GET("tournaments/{id}")
-    Call<Void> deleteTournament( @Header("Authorization") String token, @Path("id") int id);
+    @DELETE("tournaments/{id}")
+    Call<Void> deleteTournament( @Header("Authorization") String token, @Path("id") long id);
 }

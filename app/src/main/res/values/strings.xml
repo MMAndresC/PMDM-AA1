@@ -27,4 +27,7 @@
     <string name="actions">Actions</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="auth_remove">Selected tournament will be deleted</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

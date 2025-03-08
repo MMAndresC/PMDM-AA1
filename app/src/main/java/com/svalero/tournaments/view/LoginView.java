@@ -53,15 +53,17 @@ public class LoginView extends AppCompatActivity implements UserLoginContract.Vi
         return new User();
     }
 
+
     @Override
-    public void getToken(TokenResponse token) {
-        Toast.makeText(this, token.getToken(), Toast.LENGTH_LONG).show();
+    public void getSessionToken(TokenResponse token) {
+        Toast.makeText(this, "User logged", Toast.LENGTH_LONG).show();
         // Save token
         SharedPreferences sharedPreferences = getSharedPreferences("AppTournament", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token.getToken());
         editor.apply();
-
+        Intent intent = new Intent(this, MainView.class);
+        startActivity(intent);
     }
 
     @Override
