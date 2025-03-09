@@ -28,6 +28,7 @@ public class DateUtil {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date init = inputFormat.parse(initDate);
             Date end = inputFormat.parse(endDate);
+            if(init == null) return false;
             return init.before(end);
         }catch(ParseException e){
             return false;

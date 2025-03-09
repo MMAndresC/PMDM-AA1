@@ -11,6 +11,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -33,4 +34,7 @@ public interface TournamentApiInterface {
 
     @DELETE("tournaments/{id}")
     Call<Void> deleteTournament( @Header("Authorization") String token, @Path("id") long id);
+
+    @PUT("tournaments/{id}")
+    Call<Tournament> modifyTournament(@Body Tournament tournament, @Path("id") long id);
 }
