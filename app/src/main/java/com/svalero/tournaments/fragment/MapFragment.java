@@ -66,7 +66,7 @@ public class MapFragment extends Fragment implements OnMapClickListener {
     ) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, tournamentsList);
+        args.putParcelableArrayList(ARG_PARAM1, tournamentsList);
         args.putDouble(ARG_PARAM2, focusLong);
         args.putDouble(ARG_PARAM3, focusLat);
         args.putString(ARG_PARAM4, height);
@@ -84,7 +84,7 @@ public class MapFragment extends Fragment implements OnMapClickListener {
         mapView = view.findViewById(R.id.mainMap);
 
         if (getArguments() != null) {
-            tournamentsList = (ArrayList<Tournament>) getArguments().getSerializable(ARG_PARAM1);
+            tournamentsList = getArguments().getParcelableArrayList(ARG_PARAM1);
             focusLong = getArguments().getDouble(ARG_PARAM2);
             focusLat = getArguments().getDouble(ARG_PARAM3);
             height = getArguments().getString(ARG_PARAM4);

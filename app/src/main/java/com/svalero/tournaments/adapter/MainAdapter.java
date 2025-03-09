@@ -70,17 +70,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
 
             //Add click listener in every element of recycler view
             itemView.setOnClickListener(view -> {
-                long tournamentId = tournamentsList.get(getAdapterPosition()).getId();
+                Tournament tournament = tournamentsList.get(getAdapterPosition());
                 Intent intent = new Intent(itemView.getContext(), TournamentDetailView.class);
-                intent.putExtra("id", tournamentsList.get(getAdapterPosition()).getId());
-                intent.putExtra("name", tournamentsList.get(getAdapterPosition()).getName());
-                intent.putExtra("address", tournamentsList.get(getAdapterPosition()).getAddress());
-                intent.putExtra("initDate", tournamentsList.get(getAdapterPosition()).getInitDate());
-                intent.putExtra("endDate", tournamentsList.get(getAdapterPosition()).getEndDate());
-                intent.putExtra("manager", tournamentsList.get(getAdapterPosition()).getManager());
-                intent.putExtra("prize", tournamentsList.get(getAdapterPosition()).getPrize());
-                intent.putExtra("longitude", tournamentsList.get(getAdapterPosition()).getLongitude());
-                intent.putExtra("latitude", tournamentsList.get(getAdapterPosition()).getLatitude());
+                intent.putExtra("tournament", tournament);
                 startActivity(itemView.getContext(), intent, null);
             });
         }

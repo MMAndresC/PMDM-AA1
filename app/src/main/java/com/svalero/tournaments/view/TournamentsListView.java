@@ -32,19 +32,15 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
 
     private List<Tournament> tournamentsList;
     private TournamentsListAdapter adapter;
-    private TournamentsListContract.Presenter presenter;
     private Tournament selectedTournament;
-    private TournamentRemoveContract.Presenter presenterRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournaments_list_view);
 
-        presenter = new TournamentsListPresenter(this);
+        TournamentsListContract.Presenter presenter = new TournamentsListPresenter(this);
         presenter.loadTournaments();
-
-        presenterRemove = new TournamentRemovePresenter(this);
 
         tournamentsList = new ArrayList<>();
 
@@ -80,7 +76,7 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
         int id = item.getItemId();
         //WITH SWITCH NOT WORK
         if (id == R.id.editMenuTournament) {
-
+            sendToModify();
             return true;
         } else if (id == R.id.removeMenuTournament) {
             createDialog();
@@ -89,7 +85,16 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
         return super.onContextItemSelected(item);
     }
 
+    private void sendToModify(){
+        if (selectedTournament != null) {
+            Intent intent = new Intent(this, TournamentFormView.class);
+            intent.putExtra("tournament", selectedTournament);
+            startActivity(intent);
+        }
+    }
+
     private void toDelete(){
+        TournamentRemoveContract.Presenter presenterRemove = new TournamentRemovePresenter(this);
         if (selectedTournament != null) {
             String token = getToken();
             if(token == null){

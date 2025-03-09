@@ -1,9 +1,13 @@
 package com.svalero.tournaments.domain;
 
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Tournament implements Serializable {
+import androidx.annotation.NonNull;
+
+
+public class Tournament implements Parcelable {
 
         public Tournament(){}
 
@@ -67,6 +71,30 @@ public class Tournament implements Serializable {
         private double latitude;
 
         private double longitude;
+
+        protected Tournament(Parcel in) {
+                id = in.readLong();
+                name = in.readString();
+                initDate = in.readString();
+                endDate = in.readString();
+                prize = in.readFloat();
+                address = in.readString();
+                manager = in.readString();
+                latitude = in.readDouble();
+                longitude = in.readDouble();
+        }
+
+        public static final Creator<Tournament> CREATOR = new Creator<Tournament>() {
+                @Override
+                public Tournament createFromParcel(Parcel in) {
+                        return new Tournament(in);
+                }
+
+                @Override
+                public Tournament[] newArray(int size) {
+                        return new Tournament[size];
+                }
+        };
 
         public long getId() {
                 return id;
@@ -138,5 +166,23 @@ public class Tournament implements Serializable {
 
         public void setLongitude(double longitude) {
                 this.longitude = longitude;
+        }
+
+        @Override
+        public int describeContents() {
+                return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull Parcel dest, int flags) {
+                dest.writeLong(id);
+                dest.writeString(name);
+                dest.writeString(initDate);
+                dest.writeString(endDate);
+                dest.writeFloat(prize);
+                dest.writeString(address);
+                dest.writeString(manager);
+                dest.writeDouble(latitude);
+                dest.writeDouble(longitude);
         }
 }
