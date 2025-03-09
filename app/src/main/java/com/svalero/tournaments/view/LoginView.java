@@ -11,11 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.contract.UserLoginContract;
+import com.svalero.tournaments.contract.UserRegisterContract;
 import com.svalero.tournaments.domain.TokenResponse;
 import com.svalero.tournaments.domain.User;
 import com.svalero.tournaments.presenter.UserLoginPresenter;
+import com.svalero.tournaments.presenter.UserRegisterPresenter;
+import com.svalero.tournaments.util.SharedPreferencesUtil;
+import com.svalero.tournaments.util.ValidateUtil;
 
-public class LoginView extends AppCompatActivity implements UserLoginContract.View {
+public class LoginView extends AppCompatActivity implements UserLoginContract.View, UserRegisterContract.View {
 
     private String action;
 
@@ -29,45 +33,42 @@ public class LoginView extends AppCompatActivity implements UserLoginContract.Vi
     }
 
     public void onClickActionUser(View view){
-        User user = validateUserData();
+        User user = ValidateUtil.validateUserData(action, findViewById(R.id.containerLogin));
         if(user.getUsername() == null){
             String message = getString(R.string.missing_fields);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             return;
         }
-        UserLoginContract.Presenter presenter = new UserLoginPresenter(this);
         if(action.equals("signIn")){
+            UserLoginContract.Presenter presenter = new UserLoginPresenter(this);
             presenter.loginUser(user);
         }else if(action.equals("register")){
-
+            UserRegisterContract.Presenter presenter = new UserRegisterPresenter(this);
+            presenter.registerUser(user);
         }
     }
-
-    private User validateUserData(){
-        if(action != null){
-            String username = ((EditText) findViewById(R.id.username)).getText().toString();
-            String password = ((EditText) findViewById(R.id.password)).getText().toString();
-            if(!username.isBlank() && !password.isBlank())
-             return new User(username, password);
-        }
-        return new User();
-    }
-
 
     @Override
     public void getSessionToken(TokenResponse token) {
-        Toast.makeText(this, "User logged", Toast.LENGTH_LONG).show();
+        action = "";
+        Toast.makeText(this, getString(R.string.user_logged), Toast.LENGTH_LONG).show();
         // Save token
-        SharedPreferences sharedPreferences = getSharedPreferences("AppTournament", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("token", token.getToken());
-        editor.apply();
+        SharedPreferencesUtil.setCustomSharedPreferences(this, "token", token.getToken());
+        Intent intent = new Intent(this, MainView.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void savedUser(String message) {
+        action = "";
+        Toast.makeText(this, getString(R.string.user_registered), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainView.class);
         startActivity(intent);
     }
 
     @Override
     public void showErrorMessage(String message) {
+        action = "";
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 

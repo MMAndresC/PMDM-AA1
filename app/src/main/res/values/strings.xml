@@ -30,4 +30,7 @@
     <string name="auth_remove">Selected tournament will be deleted</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="user_logged">User logged</string>
+    <string name="user_registered">User registered</string>
+    <string name="required_user_logged">Required user logged in delete actions</string>
 </resources>

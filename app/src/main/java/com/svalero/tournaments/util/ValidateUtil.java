@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Tournament;
+import com.svalero.tournaments.domain.User;
 
 import java.text.ParseException;
 
@@ -37,5 +38,15 @@ public class ValidateUtil {
         } catch (NumberFormatException | NullPointerException | ParseException e) {
             return new Tournament();
         }
+    }
+
+    public static User validateUserData(String action, View view){
+        if(action != null){
+            String username = ((EditText) view.findViewById(R.id.username)).getText().toString();
+            String password = ((EditText) view.findViewById(R.id.password)).getText().toString();
+            if(!username.isBlank() && !password.isBlank())
+                return new User(username, password);
+        }
+        return new User();
     }
 }

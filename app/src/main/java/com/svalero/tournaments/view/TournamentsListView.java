@@ -2,7 +2,6 @@ package com.svalero.tournaments.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -23,6 +22,7 @@ import com.svalero.tournaments.contract.TournamentsListContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.presenter.TournamentRemovePresenter;
 import com.svalero.tournaments.presenter.TournamentsListPresenter;
+import com.svalero.tournaments.util.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,9 +96,9 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
     private void toDelete(){
         TournamentRemoveContract.Presenter presenterRemove = new TournamentRemovePresenter(this);
         if (selectedTournament != null) {
-            String token = getToken();
+            String token = SharedPreferencesUtil.getCustomSharedPreferences(this, "token");
             if(token == null){
-                String message = "Required user logged in delete actions";
+                String message = getString(R.string.required_user_logged);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -124,11 +124,6 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
                                 dialog.dismiss();
                             }});
         builder.create().show();
-    }
-
-    private String getToken(){
-        SharedPreferences sharedPreferences = getSharedPreferences("AppTournament", MODE_PRIVATE);
-        return sharedPreferences.getString("token", null);
     }
 
     public void onClickAddTournament(View view){
