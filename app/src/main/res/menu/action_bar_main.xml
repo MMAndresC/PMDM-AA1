@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuItemTournaments"
+        android:icon="@drawable/icon_tournament"
+        android:title="@string/tournaments"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemTeams"
+        android:icon="@drawable/icon_team"
+        android:title="@string/teams"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemSignIn"
+        android:title="@string/sign_in" />
+    <item
+        android:id="@+id/menuItemRegister"
+        android:title="@string/register" />
+</menu>

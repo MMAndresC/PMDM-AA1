@@ -1,3 +1,33 @@
 <resources>
-    <string name="app_name">Tournaments</string>
+    <string name="app_name">eSports</string>
+    <string name="next_tournaments">Next Tournaments:</string>
+    <string name="prize_header">Prize:</string>
+    <string name="tournaments">Tournaments</string>
+    <string name="teams">Teams</string>
+    <string name="newest">Newest</string>
+    <string name="older">Older</string>
+    <string name="winner">Winner</string>
+    <string name="logo_team">logo team</string>
+    <string name="name">Name</string>
+    <string name="add_new_tournament">Add new tournament</string>
+    <string name="manager">Manager</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="start_date">Start dd/mm/yyyy</string>
+    <string name="end_date">End dd/mm/yyyy</string>
+    <string name="prize">Prize</string>
+    <string name="save">Save</string>
+    <string name="missing_fields">Missing required fields</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in_or_register">SIGN IN OR REGISTER</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="user_name">User name</string>
+    <string name="actions">Actions</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="auth_remove">Selected tournament will be deleted</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
