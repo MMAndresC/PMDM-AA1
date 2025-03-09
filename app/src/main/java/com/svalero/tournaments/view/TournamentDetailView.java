@@ -43,16 +43,24 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     }
 
     private long loadDetailData(Intent intent){
-        long id = intent.getLongExtra("id", -1);
-        String name = extractParam(intent, "name");
+        Tournament tournament = intent.getParcelableExtra("tournament");
+        if(tournament == null){
+            Toast.makeText(this, "Tournament null", Toast.LENGTH_LONG).show();
+            Intent comeBack = new Intent(this, TournamentsListView.class);
+            startActivity(comeBack);
+            finish();
+            return -1;
+        }
+        long id = tournament.getId();
+        String name = tournament.getName();
         ((TextView) findViewById(R.id.nameDetailTournament)).setText(name);
-        ((TextView) findViewById(R.id.managerDetailTournament)).setText(extractParam(intent, "manager"));
-        ((TextView) findViewById(R.id.addressDetailTournament)).setText(extractParam(intent, "address"));
-        ((TextView) findViewById(R.id.dateDetailTournament)).setText(formatDate(intent));
-        String prize = intent.getFloatExtra("prize", 0) + " €";
+        ((TextView) findViewById(R.id.managerDetailTournament)).setText(extractParam(tournament.getManager()));
+        ((TextView) findViewById(R.id.addressDetailTournament)).setText(extractParam(tournament.getAddress()));
+        ((TextView) findViewById(R.id.dateDetailTournament)).setText(formatDate(tournament.getInitDate(), tournament.getEndDate()));
+        String prize = tournament.getPrize() + " €";
         ((TextView) findViewById(R.id.prizeDetailTournament)).setText(prize);
-        double latitude = intent.getDoubleExtra("latitude", 0);
-        double longitude = intent.getDoubleExtra("longitude", 0);
+        double longitude = tournament.getLongitude();
+        double latitude = tournament.getLatitude();
         createMapFragment(longitude, latitude, name);
         return id;
     }
@@ -78,15 +86,14 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
         transaction.commitNow();
     }
 
-    private String formatDate(Intent intent){
-        String initDate = extractParam(intent, "initDate");
-        String endDate = extractParam(intent, "endDate");
+    private String formatDate(String initDate, String endDate){
+        initDate = extractParam(initDate);
+        endDate = extractParam(endDate);
         return DateUtil.formatFromString(initDate, "dd-MM-yyyy", "yyyy-MM-dd") + " / "
                 + DateUtil.formatFromString(endDate, "dd-MM-yyyy", "yyyy-MM-dd");
     }
 
-    private String extractParam(Intent intent, String name){
-        String param = intent.getStringExtra(name);
+    private String extractParam(String param){
         if(param == null) param = "N/D";
         return param;
     }
