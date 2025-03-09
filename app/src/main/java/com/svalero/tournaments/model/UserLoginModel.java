@@ -33,7 +33,7 @@ public class UserLoginModel implements UserLoginContract.Model {
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
-
+                listener.onLoginUserError("Request failed: " + t.getMessage());
             }
         });
     }

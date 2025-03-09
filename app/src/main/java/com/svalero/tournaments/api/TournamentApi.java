@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class TournamentApi {
     private static Retrofit retrofit = null;
@@ -18,7 +19,8 @@ public class TournamentApi {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addConverterFactory(ScalarsConverterFactory.create()) //To string
+                    .addConverterFactory(GsonConverterFactory.create(gson))//To JSON
                     .build();
         }
 

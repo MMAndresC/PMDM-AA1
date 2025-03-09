@@ -22,7 +22,6 @@ import com.svalero.tournaments.presenter.TournamentModifyPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ValidateUtil;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class TournamentFormView extends AppCompatActivity implements OnCoordinatesUpdatedListener, TournamentAddContract.View, TournamentModifyContract.View {
@@ -65,7 +64,7 @@ public class TournamentFormView extends AppCompatActivity implements OnCoordinat
     }
 
     public void onClickSaveTournament(View view){
-        Tournament tournament = ValidateUtil.validateTournamentForm(findViewById(R.id.main));
+        Tournament tournament = ValidateUtil.validateTournamentForm(findViewById(R.id.containerLogin));
         if(tournament.getName() == null) {
             String message = getString(R.string.missing_fields);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
