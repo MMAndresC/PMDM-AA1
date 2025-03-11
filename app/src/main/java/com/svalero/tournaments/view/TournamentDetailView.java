@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.svalero.tournaments.R;
-import com.svalero.tournaments.contract.TournamentWinnersContract;
+import com.svalero.tournaments.contract.tournament.TournamentWinnersContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.domain.TournamentWinners;
 import com.svalero.tournaments.fragment.MapFragment;
@@ -21,6 +21,7 @@ import com.svalero.tournaments.presenter.TournamentWinnersPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.util.SearchUtil;
+import com.svalero.tournaments.view.tournament.ListTournamentsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
         Tournament tournament = intent.getParcelableExtra("tournament");
         if(tournament == null){
             Toast.makeText(this, "Tournament null", Toast.LENGTH_LONG).show();
-            Intent comeBack = new Intent(this, TournamentsListView.class);
+            Intent comeBack = new Intent(this, ListTournamentsView.class);
             startActivity(comeBack);
             finish();
             return -1;
@@ -66,8 +67,8 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     }
 
     private void createMapFragment(double longitude, double latitude, String name){
-        String width = "150dp";
-        String height = "150dp";
+        String width = "match_parent";
+        String height = "200dp";
         Tournament tournament = new Tournament();
         tournament.setLatitude(latitude);
         tournament.setLongitude(longitude);
@@ -101,7 +102,7 @@ public class TournamentDetailView extends AppCompatActivity implements Tournamen
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menuItemTournaments){
-            Intent intent = new Intent(this, TournamentsListView.class);
+            Intent intent = new Intent(this, ListTournamentsView.class);
             startActivity(intent);
         }
         return true;

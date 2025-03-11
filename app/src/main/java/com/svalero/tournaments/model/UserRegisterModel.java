@@ -2,7 +2,7 @@ package com.svalero.tournaments.model;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.UserApiInterface;
-import com.svalero.tournaments.contract.UserRegisterContract;
+import com.svalero.tournaments.contract.user.UserRegisterContract;
 import com.svalero.tournaments.domain.User;
 
 import retrofit2.Call;

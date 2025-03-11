@@ -1,6 +1,6 @@
 package com.svalero.tournaments.presenter;
 
-import com.svalero.tournaments.contract.UserLoginContract;
+import com.svalero.tournaments.contract.user.UserLoginContract;
 import com.svalero.tournaments.domain.TokenResponse;
 import com.svalero.tournaments.domain.User;
 import com.svalero.tournaments.model.UserLoginModel;

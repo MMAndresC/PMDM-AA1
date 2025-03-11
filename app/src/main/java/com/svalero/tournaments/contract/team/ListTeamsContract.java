@@ -1,10 +1,10 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.team;
 
 import com.svalero.tournaments.domain.Team;
 
 import java.util.List;
 
-public interface TeamsListContract {
+public interface ListTeamsContract {
     interface Model {
         interface OnLoadTeamsListener {
             void onLoadTeamsSuccess(List<Team> teamsList);

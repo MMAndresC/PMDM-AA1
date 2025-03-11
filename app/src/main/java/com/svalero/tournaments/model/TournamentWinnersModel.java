@@ -2,7 +2,7 @@ package com.svalero.tournaments.model;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.TournamentApiInterface;
-import com.svalero.tournaments.contract.TournamentWinnersContract;
+import com.svalero.tournaments.contract.tournament.TournamentWinnersContract;
 import com.svalero.tournaments.domain.TournamentWinners;
 
 import java.util.List;

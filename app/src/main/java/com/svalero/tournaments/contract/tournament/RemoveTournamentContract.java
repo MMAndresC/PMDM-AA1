@@ -1,7 +1,7 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.tournament;
 
 
-public interface TournamentRemoveContract {
+public interface RemoveTournamentContract {
     interface Model {
         interface OnRemoveTournamentListener {
             void onRemoveTournamentSuccess(String message);

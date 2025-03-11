@@ -1,11 +1,8 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.user;
 
 
 import com.svalero.tournaments.domain.TokenResponse;
-import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.domain.User;
-
-import java.util.List;
 
 public interface UserLoginContract {
 

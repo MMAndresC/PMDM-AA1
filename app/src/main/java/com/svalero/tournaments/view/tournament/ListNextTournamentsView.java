@@ -1,4 +1,4 @@
-package com.svalero.tournaments.view;
+package com.svalero.tournaments.view.tournament;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,18 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.MainAdapter;
-import com.svalero.tournaments.contract.TournamentsListContract;
+import com.svalero.tournaments.contract.tournament.ListNextTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
-import com.svalero.tournaments.presenter.TournamentsListPresenter;
+import com.svalero.tournaments.presenter.tournament.ListNextTournamentsPresenter;
+import com.svalero.tournaments.view.LoginView;
+import com.svalero.tournaments.view.TeamsListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainView extends AppCompatActivity implements TournamentsListContract.View{
+public class ListNextTournamentsView extends AppCompatActivity implements ListNextTournamentsContract.View{
 
     private List<Tournament> tournamentsList;
-    private TournamentsListContract.Presenter presenter;
+    private ListNextTournamentsContract.Presenter presenter;
     private MainAdapter mainAdapter;
 
     @Override
@@ -33,8 +35,8 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_view);
 
-        presenter = new TournamentsListPresenter(this);
-        presenter.loadTournaments();
+        presenter = new ListNextTournamentsPresenter(this);
+        presenter.loadNextTournaments();
 
         tournamentsList = new ArrayList<>();
 
@@ -61,7 +63,7 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menuItemTournaments) {
-            Intent intent = new Intent(this, TournamentsListView.class);
+            Intent intent = new Intent(this, ListTournamentsView.class);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuItemTeams) {
             Intent intent = new Intent(this, TeamsListView.class);
@@ -79,7 +81,7 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
     }
 
     @Override
-    public void listTournaments(List<Tournament> tournamentsList) {
+    public void listNextTournaments(List<Tournament> tournamentsList) {
         this.tournamentsList.addAll(tournamentsList);
         mainAdapter.notifyDataSetChanged();
 

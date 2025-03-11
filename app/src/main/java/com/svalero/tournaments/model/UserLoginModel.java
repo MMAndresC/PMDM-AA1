@@ -2,7 +2,7 @@ package com.svalero.tournaments.model;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.UserApiInterface;
-import com.svalero.tournaments.contract.UserLoginContract;
+import com.svalero.tournaments.contract.user.UserLoginContract;
 import com.svalero.tournaments.domain.TokenResponse;
 import com.svalero.tournaments.domain.User;
 

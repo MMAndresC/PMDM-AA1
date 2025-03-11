@@ -1,4 +1,4 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.user;
 
 import com.svalero.tournaments.domain.User;
 

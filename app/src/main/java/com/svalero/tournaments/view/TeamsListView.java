@@ -9,14 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TeamsListAdapter;
-import com.svalero.tournaments.contract.TeamsListContract;
+import com.svalero.tournaments.contract.team.ListTeamsContract;
 import com.svalero.tournaments.domain.Team;
 import com.svalero.tournaments.presenter.TeamsListPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamsListView extends AppCompatActivity implements TeamsListContract.View {
+public class TeamsListView extends AppCompatActivity implements ListTeamsContract.View {
 
     private Team selectedTeam;
     private TeamsListAdapter adapter;
@@ -27,7 +27,7 @@ public class TeamsListView extends AppCompatActivity implements TeamsListContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teams_list_view);
 
-        TeamsListContract.Presenter presenter = new TeamsListPresenter(this);
+        ListTeamsContract.Presenter presenter = new TeamsListPresenter(this);
         presenter.loadTeams();
 
         teamList = new ArrayList<>();

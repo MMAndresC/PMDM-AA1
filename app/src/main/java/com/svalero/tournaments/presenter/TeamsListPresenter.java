@@ -1,19 +1,19 @@
 package com.svalero.tournaments.presenter;
 
-import com.svalero.tournaments.contract.TeamsListContract;
+import com.svalero.tournaments.contract.team.ListTeamsContract;
 import com.svalero.tournaments.domain.Team;
-import com.svalero.tournaments.model.TeamsListModel;
+import com.svalero.tournaments.model.team.ListTeamsModel;
 
 import java.util.List;
 
-public class TeamsListPresenter implements TeamsListContract.Presenter, TeamsListContract.Model.OnLoadTeamsListener {
+public class TeamsListPresenter implements ListTeamsContract.Presenter, ListTeamsContract.Model.OnLoadTeamsListener {
 
-    private TeamsListContract.View view;
-    private TeamsListContract.Model model;
+    private ListTeamsContract.View view;
+    private ListTeamsContract.Model model;
 
-    public TeamsListPresenter(TeamsListContract.View view){
+    public TeamsListPresenter(ListTeamsContract.View view){
         this.view = view;
-        this.model = new TeamsListModel();
+        this.model = new ListTeamsModel();
     }
     @Override
     public void onLoadTeamsSuccess(List<Team> teamsList) {

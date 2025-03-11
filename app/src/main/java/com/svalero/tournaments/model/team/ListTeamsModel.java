@@ -1,8 +1,8 @@
-package com.svalero.tournaments.model;
+package com.svalero.tournaments.model.team;
 
 import com.svalero.tournaments.api.TeamApiInterface;
 import com.svalero.tournaments.api.TournamentApi;
-import com.svalero.tournaments.contract.TeamsListContract;
+import com.svalero.tournaments.contract.team.ListTeamsContract;
 import com.svalero.tournaments.domain.Team;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TeamsListModel implements TeamsListContract.Model {
+public class ListTeamsModel implements ListTeamsContract.Model {
 
     @Override
     public void loadTeams(OnLoadTeamsListener listener) {

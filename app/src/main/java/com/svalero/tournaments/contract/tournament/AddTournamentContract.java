@@ -1,9 +1,9 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.tournament;
 
 import com.svalero.tournaments.domain.Tournament;
 
 
-public interface TournamentAddContract {
+public interface AddTournamentContract {
     interface Model {
         interface OnSaveTournamentListener {
             void onSaveTournamentSuccess(Tournament tournament);
