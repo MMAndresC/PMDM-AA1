@@ -23,7 +23,6 @@ public class TournamentApi {
                     .addConverterFactory(GsonConverterFactory.create(gson))//To JSON
                     .build();
         }
-
         return retrofit;
     }
 
@@ -33,5 +32,9 @@ public class TournamentApi {
 
     public static TournamentApiInterface getTournamentApi() {
         return buildInstance().create(TournamentApiInterface.class);
+    }
+
+    public static TeamApiInterface getTeamApi() {
+        return buildInstance().create(TeamApiInterface.class);
     }
 }

@@ -1,10 +1,8 @@
 package com.svalero.tournaments.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +31,7 @@ public class LoginView extends AppCompatActivity implements UserLoginContract.Vi
     }
 
     public void onClickActionUser(View view){
-        User user = ValidateUtil.validateUserData(action, findViewById(R.id.containerLogin));
+        User user = ValidateUtil.validateUserData(action, findViewById(R.id.main));
         if(user.getUsername() == null){
             String message = getString(R.string.missing_fields);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();

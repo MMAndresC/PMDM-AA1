@@ -64,7 +64,7 @@ public class TournamentFormView extends AppCompatActivity implements OnCoordinat
     }
 
     public void onClickSaveTournament(View view){
-        Tournament tournament = ValidateUtil.validateTournamentForm(findViewById(R.id.containerLogin));
+        Tournament tournament = ValidateUtil.validateTournamentForm(findViewById(R.id.main));
         if(tournament.getName() == null) {
             String message = getString(R.string.missing_fields);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();

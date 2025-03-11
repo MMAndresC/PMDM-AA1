@@ -60,8 +60,11 @@ public class MainView extends AppCompatActivity implements TournamentsListContra
     // Select option in menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.menuItemTournaments){
+        if(item.getItemId() == R.id.menuItemTournaments) {
             Intent intent = new Intent(this, TournamentsListView.class);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemTeams) {
+            Intent intent = new Intent(this, TeamsListView.class);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuItemSignIn){
             Intent intent = new Intent(this, LoginView.class);
