@@ -2,14 +2,14 @@ package com.svalero.tournaments.model;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.TournamentApiInterface;
-import com.svalero.tournaments.contract.TournamentModifyContract;
+import com.svalero.tournaments.contract.tournament.ModifyTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TournamentModifyModel implements TournamentModifyContract.Model {
+public class TournamentModifyModel implements ModifyTournamentContract.Model {
 
     @Override
     public void modifyTournament(Tournament tournament, long id, OnModifyTournamentListener listener) {

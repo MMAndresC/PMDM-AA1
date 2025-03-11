@@ -1,4 +1,4 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.tournament;
 
 import com.svalero.tournaments.domain.TournamentWinners;
 

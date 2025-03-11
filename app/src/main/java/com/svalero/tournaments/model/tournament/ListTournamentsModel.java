@@ -1,8 +1,8 @@
-package com.svalero.tournaments.model;
+package com.svalero.tournaments.model.tournament;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.TournamentApiInterface;
-import com.svalero.tournaments.contract.TournamentsListContract;
+import com.svalero.tournaments.contract.tournament.ListTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TournamentsListModel implements TournamentsListContract.Model {
+public class ListTournamentsModel implements ListTournamentsContract.Model {
     @Override
     public void loadTournaments(OnLoadTournamentsListener listener) {
         TournamentApiInterface api = TournamentApi.getTournamentApi();

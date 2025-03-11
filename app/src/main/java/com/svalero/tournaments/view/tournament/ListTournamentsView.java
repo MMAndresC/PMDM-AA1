@@ -1,4 +1,4 @@
-package com.svalero.tournaments.view;
+package com.svalero.tournaments.view.tournament;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,18 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TournamentsListAdapter;
-import com.svalero.tournaments.contract.TournamentRemoveContract;
-import com.svalero.tournaments.contract.TournamentsListContract;
+import com.svalero.tournaments.contract.tournament.RemoveTournamentContract;
+import com.svalero.tournaments.contract.tournament.ListTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.presenter.TournamentRemovePresenter;
-import com.svalero.tournaments.presenter.TournamentsListPresenter;
+import com.svalero.tournaments.presenter.tournament.ListTournamentPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
+import com.svalero.tournaments.view.TournamentFormView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class TournamentsListView extends AppCompatActivity implements TournamentsListContract.View, TournamentRemoveContract.View {
+public class ListTournamentsView extends AppCompatActivity implements ListTournamentsContract.View, RemoveTournamentContract.View {
 
     private List<Tournament> tournamentsList;
     private TournamentsListAdapter adapter;
@@ -39,7 +40,7 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tournaments_list_view);
 
-        TournamentsListContract.Presenter presenter = new TournamentsListPresenter(this);
+        ListTournamentsContract.Presenter presenter = new ListTournamentPresenter(this);
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();
@@ -56,7 +57,7 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menuItemTournaments){
-            Intent intent = new Intent(this, TournamentsListView.class);
+            Intent intent = new Intent(this, ListTournamentsView.class);
             startActivity(intent);
         }
         return true;
@@ -94,7 +95,7 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
     }
 
     private void toDelete(){
-        TournamentRemoveContract.Presenter presenterRemove = new TournamentRemovePresenter(this);
+        RemoveTournamentContract.Presenter presenterRemove = new TournamentRemovePresenter(this);
         if (selectedTournament != null) {
             String token = SharedPreferencesUtil.getCustomSharedPreferences(this, "token");
             if(token == null){
@@ -135,17 +136,18 @@ public class TournamentsListView extends AppCompatActivity implements Tournament
         this.selectedTournament = tournament;
     }
 
-    @Override
-    public void listTournaments(List<Tournament> tournamentsList) {
-        this.tournamentsList.clear();
-        this.tournamentsList.addAll(tournamentsList);
-        adapter.notifyDataSetChanged();
-    }
 
     @Override
     public void deletedTournament(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         tournamentsList.remove(selectedTournament);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void listTournaments(List<Tournament> tournamentsList) {
+        this.tournamentsList.clear();
+        this.tournamentsList.addAll(tournamentsList);
         adapter.notifyDataSetChanged();
     }
 

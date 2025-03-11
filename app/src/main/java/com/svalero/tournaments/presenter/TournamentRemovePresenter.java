@@ -1,14 +1,14 @@
 package com.svalero.tournaments.presenter;
 
-import com.svalero.tournaments.contract.TournamentRemoveContract;
+import com.svalero.tournaments.contract.tournament.RemoveTournamentContract;
 import com.svalero.tournaments.model.TournamentRemoveModel;
 
-public class TournamentRemovePresenter implements TournamentRemoveContract.Presenter, TournamentRemoveContract.Model.OnRemoveTournamentListener {
+public class TournamentRemovePresenter implements RemoveTournamentContract.Presenter, RemoveTournamentContract.Model.OnRemoveTournamentListener {
 
-    private TournamentRemoveContract.View view;
-    private TournamentRemoveContract.Model model;
+    private RemoveTournamentContract.View view;
+    private RemoveTournamentContract.Model model;
 
-    public TournamentRemovePresenter(TournamentRemoveContract.View view){
+    public TournamentRemovePresenter(RemoveTournamentContract.View view){
         this.view = view;
         this.model = new TournamentRemoveModel();
     }

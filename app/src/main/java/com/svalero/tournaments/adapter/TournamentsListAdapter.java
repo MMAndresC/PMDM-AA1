@@ -17,16 +17,16 @@ import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.view.TournamentDetailView;
-import com.svalero.tournaments.view.TournamentsListView;
+import com.svalero.tournaments.view.tournament.ListTournamentsView;
 
 import java.util.List;
 
 public class TournamentsListAdapter extends RecyclerView.Adapter<TournamentsListAdapter.TournamentHolder>{
 
     private List<Tournament> tournamentsList;
-    private TournamentsListView context;
+    private ListTournamentsView context;
 
-    public TournamentsListAdapter(List<Tournament> tournamentList, TournamentsListView context){
+    public TournamentsListAdapter(List<Tournament> tournamentList, ListTournamentsView context){
         this.tournamentsList = tournamentList;
         this.context = context;
     }

@@ -1,15 +1,15 @@
 package com.svalero.tournaments.presenter;
 
-import com.svalero.tournaments.contract.TournamentAddContract;
+import com.svalero.tournaments.contract.tournament.AddTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.model.TournamentAddModel;
 
-public class TournamentAddPresenter implements TournamentAddContract.Presenter, TournamentAddContract.Model.OnSaveTournamentListener {
+public class TournamentAddPresenter implements AddTournamentContract.Presenter, AddTournamentContract.Model.OnSaveTournamentListener {
 
-    private TournamentAddContract.View view;
-    private TournamentAddContract.Model model;
+    private AddTournamentContract.View view;
+    private AddTournamentContract.Model model;
 
-    public TournamentAddPresenter(TournamentAddContract.View view){
+    public TournamentAddPresenter(AddTournamentContract.View view){
         this.view = view;
         this.model = new TournamentAddModel();
     }

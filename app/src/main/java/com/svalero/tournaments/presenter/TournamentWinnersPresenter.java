@@ -1,6 +1,6 @@
 package com.svalero.tournaments.presenter;
 
-import com.svalero.tournaments.contract.TournamentWinnersContract;
+import com.svalero.tournaments.contract.tournament.TournamentWinnersContract;
 import com.svalero.tournaments.domain.TournamentWinners;
 import com.svalero.tournaments.model.TournamentWinnersModel;
 

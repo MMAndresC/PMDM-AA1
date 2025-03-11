@@ -1,15 +1,15 @@
-package com.svalero.tournaments.contract;
+package com.svalero.tournaments.contract.tournament;
 
 import com.svalero.tournaments.domain.Tournament;
 
-public interface TournamentModifyContract {
+public interface ModifyTournamentContract {
 
     interface Model {
         interface OnModifyTournamentListener {
             void onModifyTournamentSuccess(Tournament tournament);
             void onModifyTournamentError(String message);
         }
-        void modifyTournament(Tournament tournament, long id, TournamentModifyContract.Model.OnModifyTournamentListener listener);
+        void modifyTournament(Tournament tournament, long id, ModifyTournamentContract.Model.OnModifyTournamentListener listener);
     }
 
     interface View {

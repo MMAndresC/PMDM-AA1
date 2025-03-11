@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 import com.svalero.tournaments.R;
-import com.svalero.tournaments.contract.TournamentAddContract;
-import com.svalero.tournaments.contract.TournamentModifyContract;
+import com.svalero.tournaments.contract.tournament.AddTournamentContract;
+import com.svalero.tournaments.contract.tournament.ModifyTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.interfaces.OnCoordinatesUpdatedListener;
@@ -21,10 +21,11 @@ import com.svalero.tournaments.presenter.TournamentAddPresenter;
 import com.svalero.tournaments.presenter.TournamentModifyPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ValidateUtil;
+import com.svalero.tournaments.view.tournament.ListTournamentsView;
 
 import java.util.ArrayList;
 
-public class TournamentFormView extends AppCompatActivity implements OnCoordinatesUpdatedListener, TournamentAddContract.View, TournamentModifyContract.View {
+public class TournamentFormView extends AppCompatActivity implements OnCoordinatesUpdatedListener, AddTournamentContract.View, ModifyTournamentContract.View {
 
     private String action;
     private Long id;
@@ -64,17 +65,17 @@ public class TournamentFormView extends AppCompatActivity implements OnCoordinat
     }
 
     public void onClickSaveTournament(View view){
-        Tournament tournament = ValidateUtil.validateTournamentForm(findViewById(R.id.containerLogin));
+        Tournament tournament = ValidateUtil.validateTournamentForm(findViewById(R.id.main));
         if(tournament.getName() == null) {
             String message = getString(R.string.missing_fields);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             return;
         }
         if(action.equals("add")) {
-            TournamentAddContract.Presenter presenter = new TournamentAddPresenter(this);
+            AddTournamentContract.Presenter presenter = new TournamentAddPresenter(this);
             presenter.saveTournament(tournament);
         }else if(action.equals("modify")){
-            TournamentModifyContract.Presenter presenter = new TournamentModifyPresenter(this);
+            ModifyTournamentContract.Presenter presenter = new TournamentModifyPresenter(this);
             presenter.modifyTournament(tournament, id);
         }
         action = "";
@@ -126,7 +127,7 @@ public class TournamentFormView extends AppCompatActivity implements OnCoordinat
 
     private void changeActivity(){
         //Redirection to list view
-        Intent intent = new Intent(this, TournamentsListView.class);
+        Intent intent = new Intent(this, ListTournamentsView.class);
         startActivity(intent);
         //Not let come back with back button
         finish();
