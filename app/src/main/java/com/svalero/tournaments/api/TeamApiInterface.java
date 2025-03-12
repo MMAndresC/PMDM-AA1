@@ -24,7 +24,7 @@ public interface TeamApiInterface {
     @DELETE("teams/{id}")
     Call<Void> deleteTeam(@Header("Authorization") String token, @Path("id") long id);
 
-    @PUT("teams")
-    Call<Team> modifyTeam(@Body Team team);
+    @PUT("teams/{id}")
+    Call<Team> modifyTeam(@Body Team team, @Path("id") long id);
 
 }

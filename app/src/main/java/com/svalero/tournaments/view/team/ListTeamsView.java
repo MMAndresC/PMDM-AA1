@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TeamsListAdapter;
 import com.svalero.tournaments.contract.team.ListTeamsContract;
+import com.svalero.tournaments.contract.team.ModifyTeamContract;
 import com.svalero.tournaments.contract.team.RemoveTeamContract;
 import com.svalero.tournaments.contract.tournament.RemoveTournamentContract;
 import com.svalero.tournaments.domain.Team;
@@ -25,6 +26,7 @@ import com.svalero.tournaments.presenter.team.ListTeamsPresenter;
 import com.svalero.tournaments.presenter.team.RemoveTeamPresenter;
 import com.svalero.tournaments.presenter.tournament.RemoveTournamentPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
+import com.svalero.tournaments.view.tournament.FormTournamentView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +70,7 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
         int id = item.getItemId();
         //WITH SWITCH NOT WORK
         if (id == R.id.editMenuTeam) {
-
+            sendToModify();
             return true;
         } else if (id == R.id.removeMenuTeam) {
             createDialog();
@@ -107,6 +109,14 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
             }
             token = "Bearer " + token;
             presenterRemove.removeTeam(token, selectedTeam.getId());
+        }
+    }
+
+    private void sendToModify(){
+        if (selectedTeam != null) {
+            Intent intent = new Intent(this, FormTeamView.class);
+            intent.putExtra("team", selectedTeam);
+            startActivity(intent);
         }
     }
 
