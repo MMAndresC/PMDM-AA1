@@ -12,18 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Team;
-import com.svalero.tournaments.util.ConstantsUtil;
 import com.svalero.tournaments.util.ParseUtil;
-import com.svalero.tournaments.view.TeamsListView;
+import com.svalero.tournaments.view.team.ListTeamsView;
 
 import java.util.List;
 
 public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.TeamHolder> {
 
     private List<Team> teamsList;
-    private TeamsListView context;
+    private ListTeamsView context;
 
-    public TeamsListAdapter(List<Team> teamsList, TeamsListView context){
+    public TeamsListAdapter(List<Team> teamsList, ListTeamsView context){
         this.teamsList = teamsList;
         this.context = context;
     }
@@ -41,7 +40,7 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
         holder.itemId.setText(String.valueOf(teamsList.get(position).getId()));
         holder.itemName.setText(teamsList.get(position).getName());
         setImage(holder.itemLogo, teamsList.get(position).getName());
-        String region = ConstantsUtil.translateRegionToString(teamsList.get(position).getRegion());
+        String region = translateRegionToString(teamsList.get(position).getRegion());
         holder.itemRegion.setText(region);
         String partner = teamsList.get(position).isPartner() ? "Partner" : "";
         holder.itemPartner.setText(partner);
@@ -63,6 +62,17 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
             imageView.setImageResource(resourceId);
         else
             imageView.setImageResource(R.drawable.no_photos);
+    }
+
+    public String translateRegionToString(int region){
+        switch(region){
+            case 1: return context.getString(R.string.region_NA);
+            case 2: return context.getString(R.string.region_SA);
+            case 3: return context.getString(R.string.region_EU);
+            case 4: return context.getString(R.string.region_AS);
+            case 5: return context.getString(R.string.region_OC);
+        }
+        return "N/D";
     }
 
     @Override

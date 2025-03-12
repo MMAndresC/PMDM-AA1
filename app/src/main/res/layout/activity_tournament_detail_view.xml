@@ -9,7 +9,7 @@
     android:paddingTop="120dp"
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
-    tools:context=".view.TournamentDetailView">
+    tools:context=".view.tournament.DetailTournamentView">
 
     <LinearLayout
         android:layout_width="match_parent"

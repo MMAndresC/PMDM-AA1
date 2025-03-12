@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.util.DateUtil;
-import com.svalero.tournaments.view.TournamentDetailView;
+import com.svalero.tournaments.view.tournament.DetailTournamentView;
 
 import java.util.List;
 
@@ -71,7 +71,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
             //Add click listener in every element of recycler view
             itemView.setOnClickListener(view -> {
                 Tournament tournament = tournamentsList.get(getAdapterPosition());
-                Intent intent = new Intent(itemView.getContext(), TournamentDetailView.class);
+                Intent intent = new Intent(itemView.getContext(), DetailTournamentView.class);
                 intent.putExtra("tournament", tournament);
                 startActivity(itemView.getContext(), intent, null);
             });

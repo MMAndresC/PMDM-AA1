@@ -18,16 +18,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.TeamsListView"
+            android:name=".view.team.ListTeamsView"
             android:exported="false" />
         <activity
-            android:name=".view.LoginView"
+            android:name=".view.team.FormTeamView"
             android:exported="false" />
         <activity
-            android:name=".view.TournamentFormView"
+            android:name=".view.user.LoginView"
             android:exported="false" />
         <activity
-            android:name=".view.TournamentDetailView"
+            android:name=".view.tournament.FormTournamentView"
+            android:exported="false" />
+        <activity
+            android:name=".view.tournament.DetailTournamentView"
             android:exported="false" />
         <activity
             android:name=".view.tournament.ListTournamentsView"

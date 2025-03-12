@@ -3,7 +3,6 @@ package com.svalero.tournaments.presenter.tournament;
 
 import com.svalero.tournaments.contract.tournament.ListTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.model.MainModel;
 import com.svalero.tournaments.model.tournament.ListTournamentsModel;
 
 import java.util.List;

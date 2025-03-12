@@ -1,4 +1,4 @@
-package com.svalero.tournaments.view;
+package com.svalero.tournaments.view.tournament;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,12 +21,11 @@ import com.svalero.tournaments.presenter.TournamentWinnersPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.util.SearchUtil;
-import com.svalero.tournaments.view.tournament.ListTournamentsView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TournamentDetailView extends AppCompatActivity implements TournamentWinnersContract.View {
+public class DetailTournamentView extends AppCompatActivity implements TournamentWinnersContract.View {
 
     private TournamentWinners tournamentWinner;
     private TournamentWinnersContract.Presenter presenter;

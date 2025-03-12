@@ -2,7 +2,7 @@ package com.svalero.tournaments.presenter;
 
 import com.svalero.tournaments.contract.tournament.TournamentWinnersContract;
 import com.svalero.tournaments.domain.TournamentWinners;
-import com.svalero.tournaments.model.TournamentWinnersModel;
+import com.svalero.tournaments.model.tournament.WinnersTournamentModel;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class TournamentWinnersPresenter implements TournamentWinnersContract.Pre
 
     public TournamentWinnersPresenter(TournamentWinnersContract.View view, long tournamentId){
         this.view = view;
-        this.model = new TournamentWinnersModel(tournamentId);
+        this.model = new WinnersTournamentModel(tournamentId);
     }
     @Override
     public void loadTournamentWinners() {

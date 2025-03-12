@@ -1,4 +1,4 @@
-package com.svalero.tournaments.model;
+package com.svalero.tournaments.model.tournament;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.TournamentApiInterface;
@@ -11,11 +11,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TournamentWinnersModel implements TournamentWinnersContract.Model {
+public class WinnersTournamentModel implements TournamentWinnersContract.Model {
 
     private long tournamentId;
 
-    public TournamentWinnersModel(long tournamentId){
+    public WinnersTournamentModel(long tournamentId){
         this.tournamentId = tournamentId;
     }
     @Override

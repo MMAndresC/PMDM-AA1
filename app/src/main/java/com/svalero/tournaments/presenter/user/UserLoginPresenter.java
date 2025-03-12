@@ -1,9 +1,9 @@
-package com.svalero.tournaments.presenter;
+package com.svalero.tournaments.presenter.user;
 
 import com.svalero.tournaments.contract.user.UserLoginContract;
 import com.svalero.tournaments.domain.TokenResponse;
 import com.svalero.tournaments.domain.User;
-import com.svalero.tournaments.model.UserLoginModel;
+import com.svalero.tournaments.model.user.UserLoginModel;
 
 public class UserLoginPresenter implements UserLoginContract.Presenter, UserLoginContract.Model.OnLoginUserListener {
 

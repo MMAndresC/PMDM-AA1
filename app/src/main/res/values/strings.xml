@@ -33,4 +33,14 @@
     <string name="user_logged">User logged</string>
     <string name="user_registered">User registered</string>
     <string name="required_user_logged">Required user logged in delete actions</string>
+    <string name="add_new_team">Add new team</string>
+    <string name="representative">Representative</string>
+    <string name="phone">Phone</string>
+    <string name="partner">Partner</string>
+    <string name="address">Address</string>
+    <string name="region_NA">North America</string>
+    <string name="region_SA">South America</string>
+    <string name="region_EU">Europe</string>
+    <string name="region_AS">Asia</string>
+    <string name="region_OC">Oceania</string>
 </resources>

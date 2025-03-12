@@ -1,8 +1,8 @@
-package com.svalero.tournaments.presenter;
+package com.svalero.tournaments.presenter.user;
 
 import com.svalero.tournaments.contract.user.UserRegisterContract;
 import com.svalero.tournaments.domain.User;
-import com.svalero.tournaments.model.UserRegisterModel;
+import com.svalero.tournaments.model.user.UserRegisterModel;
 
 public class UserRegisterPresenter implements UserRegisterContract.Presenter, UserRegisterContract.Model.OnRegisterUserListener {
     private UserRegisterContract.View view;
