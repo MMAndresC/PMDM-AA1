@@ -2,6 +2,7 @@ package com.svalero.tournaments.adapter;
 
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -44,12 +45,12 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
         holder.itemRegion.setText(region);
         String partner = teamsList.get(position).isPartner() ? "Partner" : "";
         holder.itemPartner.setText(partner);
-      /*  // Context menu listener
+        // Context menu listener
         holder.itemView.setOnLongClickListener(v -> {
             context.setSelectedTeam(teamsList.get(position));
             v.showContextMenu();
             return true;
-        });*/
+        });
     }
 
     private void setImage(ImageView imageView, String imageName) {
@@ -96,25 +97,24 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
             this.itemRegion = itemView.findViewById(R.id.regionTeamItem);
             this.itemLogo = itemView.findViewById(R.id.logoTeamItem);
 
-           /* //listener event click
+           /* //listener event click to go to detail view
             itemView.setOnClickListener(view -> {
                 Team team = teamsList.get(getAdapterPosition());
                 Intent intent = new Intent(itemView.getContext(), TeamDetailView.class);
                 intent.putExtra("team", team);
                 startActivity(itemView.getContext(), intent, null);
-            });
+            });*/
 
             // Register context menu
-            itemView.setOnCreateContextMenuListener(this);*/
+            itemView.setOnCreateContextMenuListener(this);
         }
 
 
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            //TODO id del menu nuevo que cree
-          /*  menu.add(Menu.NONE, R.id.editMenuTournament, Menu.NONE, "Edit");
-            menu.add(Menu.NONE, R.id.removeMenuTournament, Menu.NONE, "Remove");*/
+            menu.add(Menu.NONE, R.id.editMenuTeam, Menu.NONE, "Edit");
+            menu.add(Menu.NONE, R.id.removeMenuTeam, Menu.NONE, "Remove");
         }
     }
 }

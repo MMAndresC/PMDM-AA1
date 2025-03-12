@@ -1,7 +1,12 @@
 package com.svalero.tournaments.domain;
 
 
-public class Team {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Team implements Parcelable {
 
     private long id;
 
@@ -58,6 +63,29 @@ public class Team {
         this.address = address;
         this.region = region;
     }
+
+    protected Team(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        representative = in.readString();
+        phone = in.readString();
+        partner = in.readByte() != 0;
+        registrationDate = in.readString();
+        address = in.readString();
+        region = in.readInt();
+    }
+
+    public static final Creator<Team> CREATOR = new Creator<Team>() {
+        @Override
+        public Team createFromParcel(Parcel in) {
+            return new Team(in);
+        }
+
+        @Override
+        public Team[] newArray(int size) {
+            return new Team[size];
+        }
+    };
 
     public long getId() {
         return id;
@@ -121,5 +149,22 @@ public class Team {
 
     public void setRegion(int region) {
         this.region = region;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(name);
+        dest.writeString(representative);
+        dest.writeString(phone);
+        dest.writeByte((byte) (partner ? 1 : 0));
+        dest.writeString(registrationDate);
+        dest.writeString(address);
+        dest.writeInt(region);
     }
 }

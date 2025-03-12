@@ -18,7 +18,7 @@ import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.interfaces.OnCoordinatesUpdatedListener;
 import com.svalero.tournaments.presenter.tournament.AddTournamentPresenter;
-import com.svalero.tournaments.presenter.TournamentModifyPresenter;
+import com.svalero.tournaments.presenter.tournament.ModifyTournamentPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ValidateUtil;
 
@@ -74,7 +74,7 @@ public class FormTournamentView extends AppCompatActivity implements OnCoordinat
             AddTournamentContract.Presenter presenter = new AddTournamentPresenter(this);
             presenter.saveTournament(tournament);
         }else if(action.equals("modify")){
-            ModifyTournamentContract.Presenter presenter = new TournamentModifyPresenter(this);
+            ModifyTournamentContract.Presenter presenter = new ModifyTournamentPresenter(this);
             presenter.modifyTournament(tournament, id);
         }
         action = "";

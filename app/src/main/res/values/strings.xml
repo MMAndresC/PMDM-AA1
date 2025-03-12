@@ -27,7 +27,8 @@
     <string name="actions">Actions</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
-    <string name="auth_remove">Selected tournament will be deleted</string>
+    <string name="auth_remove_tournament">Selected tournament will be deleted</string>
+    <string name="auth_remove_team">Selected team will be deleted</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="user_logged">User logged</string>

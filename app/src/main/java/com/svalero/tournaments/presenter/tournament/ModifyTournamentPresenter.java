@@ -1,14 +1,14 @@
-package com.svalero.tournaments.presenter;
+package com.svalero.tournaments.presenter.tournament;
 
 import com.svalero.tournaments.contract.tournament.ModifyTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.model.tournament.ModifyTournamentModel;
 
-public class TournamentModifyPresenter implements ModifyTournamentContract.Presenter, ModifyTournamentContract.Model.OnModifyTournamentListener {
+public class ModifyTournamentPresenter implements ModifyTournamentContract.Presenter, ModifyTournamentContract.Model.OnModifyTournamentListener {
     private ModifyTournamentContract.Model model;
     private ModifyTournamentContract.View view;
 
-    public TournamentModifyPresenter(ModifyTournamentContract.View view){
+    public ModifyTournamentPresenter(ModifyTournamentContract.View view){
         this.view = view;
         this.model = new ModifyTournamentModel();
     }
