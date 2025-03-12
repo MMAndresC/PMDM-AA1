@@ -1,4 +1,4 @@
-package com.svalero.tournaments.presenter;
+package com.svalero.tournaments.presenter.tournament;
 
 import com.svalero.tournaments.contract.tournament.TournamentWinnersContract;
 import com.svalero.tournaments.domain.TournamentWinners;
@@ -6,11 +6,11 @@ import com.svalero.tournaments.model.tournament.WinnersTournamentModel;
 
 import java.util.List;
 
-public class TournamentWinnersPresenter implements TournamentWinnersContract.Presenter, TournamentWinnersContract.Model.OnLoadTournamentWinnersListener {
+public class WinnersTournamentPresenter implements TournamentWinnersContract.Presenter, TournamentWinnersContract.Model.OnLoadTournamentWinnersListener {
     private TournamentWinnersContract.View view;
     private TournamentWinnersContract.Model model;
 
-    public TournamentWinnersPresenter(TournamentWinnersContract.View view, long tournamentId){
+    public WinnersTournamentPresenter(TournamentWinnersContract.View view, long tournamentId){
         this.view = view;
         this.model = new WinnersTournamentModel(tournamentId);
     }

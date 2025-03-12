@@ -17,7 +17,7 @@ import com.svalero.tournaments.contract.tournament.TournamentWinnersContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.domain.TournamentWinners;
 import com.svalero.tournaments.fragment.MapFragment;
-import com.svalero.tournaments.presenter.TournamentWinnersPresenter;
+import com.svalero.tournaments.presenter.tournament.WinnersTournamentPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.util.SearchUtil;
@@ -37,7 +37,7 @@ public class DetailTournamentView extends AppCompatActivity implements Tournamen
         Intent intent = getIntent();
         long tournamentId = loadDetailData(intent);
         if(tournamentId != -1){
-            presenter = new TournamentWinnersPresenter(this, tournamentId);
+            presenter = new WinnersTournamentPresenter(this, tournamentId);
             presenter.loadTournamentWinners();
         }
     }

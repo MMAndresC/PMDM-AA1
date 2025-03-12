@@ -20,7 +20,7 @@ import com.svalero.tournaments.adapter.TournamentsListAdapter;
 import com.svalero.tournaments.contract.tournament.RemoveTournamentContract;
 import com.svalero.tournaments.contract.tournament.ListTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.presenter.TournamentRemovePresenter;
+import com.svalero.tournaments.presenter.tournament.RemoveTournamentPresenter;
 import com.svalero.tournaments.presenter.tournament.ListTournamentPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
 
@@ -53,14 +53,14 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.menuItemTournaments){
             Intent intent = new Intent(this, ListTournamentsView.class);
             startActivity(intent);
         }
         return true;
-    }
+    }*/
 
     //Register context menu
     @Override
@@ -94,7 +94,7 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     }
 
     private void toDelete(){
-        RemoveTournamentContract.Presenter presenterRemove = new TournamentRemovePresenter(this);
+        RemoveTournamentContract.Presenter presenterRemove = new RemoveTournamentPresenter(this);
         if (selectedTournament != null) {
             String token = SharedPreferencesUtil.getCustomSharedPreferences(this, "token");
             if(token == null){
@@ -110,7 +110,7 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     //Create confirm dialog to delete tournament
     private void createDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.auth_remove)
+        builder.setMessage(R.string.auth_remove_tournament)
                 .setPositiveButton(R.string.yes,
                         new DialogInterface.OnClickListener() {
                             @Override
