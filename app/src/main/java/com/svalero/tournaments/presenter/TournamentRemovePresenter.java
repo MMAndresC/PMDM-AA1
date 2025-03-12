@@ -1,7 +1,7 @@
 package com.svalero.tournaments.presenter;
 
 import com.svalero.tournaments.contract.tournament.RemoveTournamentContract;
-import com.svalero.tournaments.model.TournamentRemoveModel;
+import com.svalero.tournaments.model.tournament.RemoveTournamentModel;
 
 public class TournamentRemovePresenter implements RemoveTournamentContract.Presenter, RemoveTournamentContract.Model.OnRemoveTournamentListener {
 
@@ -10,7 +10,7 @@ public class TournamentRemovePresenter implements RemoveTournamentContract.Prese
 
     public TournamentRemovePresenter(RemoveTournamentContract.View view){
         this.view = view;
-        this.model = new TournamentRemoveModel();
+        this.model = new RemoveTournamentModel();
     }
     @Override
     public void removeTournament(String token, long id) {

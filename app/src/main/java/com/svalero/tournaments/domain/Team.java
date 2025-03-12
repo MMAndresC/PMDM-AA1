@@ -19,13 +19,14 @@ public class Team {
 
     private int region;
 
+    public Team(){}
+
     //Constructor insert
     public Team(
             String name,
             String representative,
             String phone,
             boolean partner,
-            String registrationDate,
             String address,
             int region
     ){
@@ -33,7 +34,6 @@ public class Team {
         this.representative = representative;
         this.phone = phone;
         this.partner = partner;
-        this.registrationDate = registrationDate;
         this.address = address;
         this.region = region;
     }

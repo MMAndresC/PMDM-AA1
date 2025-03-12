@@ -23,7 +23,6 @@ import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.presenter.TournamentRemovePresenter;
 import com.svalero.tournaments.presenter.tournament.ListTournamentPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
-import com.svalero.tournaments.view.TournamentFormView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +87,7 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
 
     private void sendToModify(){
         if (selectedTournament != null) {
-            Intent intent = new Intent(this, TournamentFormView.class);
+            Intent intent = new Intent(this, FormTournamentView.class);
             intent.putExtra("tournament", selectedTournament);
             startActivity(intent);
         }
@@ -128,7 +127,7 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     }
 
     public void onClickAddTournament(View view){
-        Intent intent = new Intent(this, TournamentFormView.class);
+        Intent intent = new Intent(this, FormTournamentView.class);
         startActivity(intent);
     }
 

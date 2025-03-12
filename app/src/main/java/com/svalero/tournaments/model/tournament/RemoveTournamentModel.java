@@ -1,4 +1,4 @@
-package com.svalero.tournaments.model;
+package com.svalero.tournaments.model.tournament;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.TournamentApiInterface;
@@ -8,7 +8,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TournamentRemoveModel implements RemoveTournamentContract.Model {
+public class RemoveTournamentModel implements RemoveTournamentContract.Model {
 
     @Override
     public void removeTournament(String token, long id, OnRemoveTournamentListener listener) {

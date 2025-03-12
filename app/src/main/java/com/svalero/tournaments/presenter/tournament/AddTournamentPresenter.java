@@ -1,17 +1,17 @@
-package com.svalero.tournaments.presenter;
+package com.svalero.tournaments.presenter.tournament;
 
 import com.svalero.tournaments.contract.tournament.AddTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.model.TournamentAddModel;
+import com.svalero.tournaments.model.tournament.AddTournamentModel;
 
-public class TournamentAddPresenter implements AddTournamentContract.Presenter, AddTournamentContract.Model.OnSaveTournamentListener {
+public class AddTournamentPresenter implements AddTournamentContract.Presenter, AddTournamentContract.Model.OnSaveTournamentListener {
 
     private AddTournamentContract.View view;
     private AddTournamentContract.Model model;
 
-    public TournamentAddPresenter(AddTournamentContract.View view){
+    public AddTournamentPresenter(AddTournamentContract.View view){
         this.view = view;
-        this.model = new TournamentAddModel();
+        this.model = new AddTournamentModel();
     }
     @Override
     public void saveTournament(Tournament tournament) {

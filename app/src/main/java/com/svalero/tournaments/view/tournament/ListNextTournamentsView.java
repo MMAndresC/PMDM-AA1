@@ -18,8 +18,8 @@ import com.svalero.tournaments.contract.tournament.ListNextTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.presenter.tournament.ListNextTournamentsPresenter;
-import com.svalero.tournaments.view.LoginView;
-import com.svalero.tournaments.view.TeamsListView;
+import com.svalero.tournaments.view.user.LoginView;
+import com.svalero.tournaments.view.team.ListTeamsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class ListNextTournamentsView extends AppCompatActivity implements ListNe
             Intent intent = new Intent(this, ListTournamentsView.class);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuItemTeams) {
-            Intent intent = new Intent(this, TeamsListView.class);
+            Intent intent = new Intent(this, ListTeamsView.class);
             startActivity(intent);
         }else if(item.getItemId() == R.id.menuItemSignIn){
             Intent intent = new Intent(this, LoginView.class);

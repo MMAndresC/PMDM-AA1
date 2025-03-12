@@ -1,6 +1,8 @@
-package com.svalero.tournaments.view;
+package com.svalero.tournaments.view.team;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,12 +13,12 @@ import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TeamsListAdapter;
 import com.svalero.tournaments.contract.team.ListTeamsContract;
 import com.svalero.tournaments.domain.Team;
-import com.svalero.tournaments.presenter.TeamsListPresenter;
+import com.svalero.tournaments.presenter.team.ListTeamsPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamsListView extends AppCompatActivity implements ListTeamsContract.View {
+public class ListTeamsView extends AppCompatActivity implements ListTeamsContract.View {
 
     private Team selectedTeam;
     private TeamsListAdapter adapter;
@@ -27,7 +29,7 @@ public class TeamsListView extends AppCompatActivity implements ListTeamsContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teams_list_view);
 
-        ListTeamsContract.Presenter presenter = new TeamsListPresenter(this);
+        ListTeamsContract.Presenter presenter = new ListTeamsPresenter(this);
         presenter.loadTeams();
 
         teamList = new ArrayList<>();
@@ -56,6 +58,11 @@ public class TeamsListView extends AppCompatActivity implements ListTeamsContrac
     @Override
     public void showSuccessMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickAddTeam(View view){
+        Intent intent = new Intent(this, FormTeamView.class);
+        startActivity(intent);
     }
 
     public void setSelectedTeam(Team team){

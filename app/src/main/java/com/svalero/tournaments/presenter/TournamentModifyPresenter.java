@@ -2,7 +2,7 @@ package com.svalero.tournaments.presenter;
 
 import com.svalero.tournaments.contract.tournament.ModifyTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
-import com.svalero.tournaments.model.TournamentModifyModel;
+import com.svalero.tournaments.model.tournament.ModifyTournamentModel;
 
 public class TournamentModifyPresenter implements ModifyTournamentContract.Presenter, ModifyTournamentContract.Model.OnModifyTournamentListener {
     private ModifyTournamentContract.Model model;
@@ -10,7 +10,7 @@ public class TournamentModifyPresenter implements ModifyTournamentContract.Prese
 
     public TournamentModifyPresenter(ModifyTournamentContract.View view){
         this.view = view;
-        this.model = new TournamentModifyModel();
+        this.model = new ModifyTournamentModel();
     }
     @Override
     public void onModifyTournamentSuccess(Tournament tournament) {

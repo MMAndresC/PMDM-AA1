@@ -1,4 +1,4 @@
-package com.svalero.tournaments.presenter;
+package com.svalero.tournaments.presenter.team;
 
 import com.svalero.tournaments.contract.team.ListTeamsContract;
 import com.svalero.tournaments.domain.Team;
@@ -6,12 +6,12 @@ import com.svalero.tournaments.model.team.ListTeamsModel;
 
 import java.util.List;
 
-public class TeamsListPresenter implements ListTeamsContract.Presenter, ListTeamsContract.Model.OnLoadTeamsListener {
+public class ListTeamsPresenter implements ListTeamsContract.Presenter, ListTeamsContract.Model.OnLoadTeamsListener {
 
     private ListTeamsContract.View view;
     private ListTeamsContract.Model model;
 
-    public TeamsListPresenter(ListTeamsContract.View view){
+    public ListTeamsPresenter(ListTeamsContract.View view){
         this.view = view;
         this.model = new ListTeamsModel();
     }

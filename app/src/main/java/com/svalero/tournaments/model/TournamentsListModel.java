@@ -11,7 +11,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainModel implements ListTournamentsContract.Model {
+public class TournamentsListModel implements ListTournamentsContract.Model {
     @Override
     public void loadTournaments(OnLoadTournamentsListener listener) {
         TournamentApiInterface tournamentApiInterface = TournamentApi.getTournamentApi();

@@ -9,7 +9,7 @@
     android:paddingTop="120dp"
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
-    tools:context=".view.TournamentFormView" >
+    tools:context=".view.tournament.FormTournamentView" >
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.svalero.tournaments.view;
+package com.svalero.tournaments.view.tournament;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,15 +17,14 @@ import com.svalero.tournaments.contract.tournament.ModifyTournamentContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.interfaces.OnCoordinatesUpdatedListener;
-import com.svalero.tournaments.presenter.TournamentAddPresenter;
+import com.svalero.tournaments.presenter.tournament.AddTournamentPresenter;
 import com.svalero.tournaments.presenter.TournamentModifyPresenter;
 import com.svalero.tournaments.util.DateUtil;
 import com.svalero.tournaments.util.ValidateUtil;
-import com.svalero.tournaments.view.tournament.ListTournamentsView;
 
 import java.util.ArrayList;
 
-public class TournamentFormView extends AppCompatActivity implements OnCoordinatesUpdatedListener, AddTournamentContract.View, ModifyTournamentContract.View {
+public class FormTournamentView extends AppCompatActivity implements OnCoordinatesUpdatedListener, AddTournamentContract.View, ModifyTournamentContract.View {
 
     private String action;
     private Long id;
@@ -72,7 +71,7 @@ public class TournamentFormView extends AppCompatActivity implements OnCoordinat
             return;
         }
         if(action.equals("add")) {
-            AddTournamentContract.Presenter presenter = new TournamentAddPresenter(this);
+            AddTournamentContract.Presenter presenter = new AddTournamentPresenter(this);
             presenter.saveTournament(tournament);
         }else if(action.equals("modify")){
             ModifyTournamentContract.Presenter presenter = new TournamentModifyPresenter(this);

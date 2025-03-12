@@ -1,4 +1,4 @@
-package com.svalero.tournaments.view;
+package com.svalero.tournaments.view.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import com.svalero.tournaments.contract.user.UserLoginContract;
 import com.svalero.tournaments.contract.user.UserRegisterContract;
 import com.svalero.tournaments.domain.TokenResponse;
 import com.svalero.tournaments.domain.User;
-import com.svalero.tournaments.presenter.UserLoginPresenter;
-import com.svalero.tournaments.presenter.UserRegisterPresenter;
+import com.svalero.tournaments.presenter.user.UserLoginPresenter;
+import com.svalero.tournaments.presenter.user.UserRegisterPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
 import com.svalero.tournaments.util.ValidateUtil;
 import com.svalero.tournaments.view.tournament.ListNextTournamentsView;

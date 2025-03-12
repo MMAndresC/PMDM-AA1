@@ -1,4 +1,4 @@
-package com.svalero.tournaments.model;
+package com.svalero.tournaments.model.user;
 
 import com.svalero.tournaments.api.TournamentApi;
 import com.svalero.tournaments.api.UserApiInterface;
