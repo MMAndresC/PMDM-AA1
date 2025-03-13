@@ -44,4 +44,9 @@
     <string name="region_EU">Europe</string>
     <string name="region_AS">Asia</string>
     <string name="region_OC">Oceania</string>
+    <string name="user_image">User image</string>
+    <string name="alias">Alias</string>
+    <string name="db_error">Failed to retrieve user data</string>
+    <string name="sign_out">Sign out</string>
+    <string name="my_zone">My Zone</string>
 </resources>

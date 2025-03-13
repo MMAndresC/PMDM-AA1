@@ -21,6 +21,7 @@ import com.svalero.tournaments.view.tournament.ListNextTournamentsView;
 public class LoginView extends AppCompatActivity implements UserLoginContract.View, UserRegisterContract.View {
 
     private String action;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class LoginView extends AppCompatActivity implements UserLoginContract.Vi
             return;
         }
         if(action.equals("signIn")){
+            username = user.getUsername();
             UserLoginContract.Presenter presenter = new UserLoginPresenter(this);
             presenter.loginUser(user);
         }else if(action.equals("register")){
@@ -53,6 +55,8 @@ public class LoginView extends AppCompatActivity implements UserLoginContract.Vi
         Toast.makeText(this, getString(R.string.user_logged), Toast.LENGTH_LONG).show();
         // Save token
         SharedPreferencesUtil.setCustomSharedPreferences(this, "token", token.getToken());
+        SharedPreferencesUtil.setCustomSharedPreferences(this, "username", username);
+        username = "";
         Intent intent = new Intent(this, ListNextTournamentsView.class);
         startActivity(intent);
     }
