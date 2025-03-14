@@ -42,11 +42,38 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
-        <Spinner
-            android:id="@+id/editMainRoleUserData"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="48dp" />
+            android:text="@string/role"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="start"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioButtonSupport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/role_tank" />
+
+            <RadioButton
+                android:id="@+id/radioButtonDps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/role_dps" />
+
+            <RadioButton
+                android:id="@+id/radioButtonTank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/role_support" />
+        </RadioGroup>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
