@@ -1,6 +1,7 @@
 package com.svalero.tournaments.view.tournament;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +19,10 @@ import com.svalero.tournaments.contract.tournament.ListNextTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.presenter.tournament.ListNextTournamentsPresenter;
+import com.svalero.tournaments.util.SharedPreferencesUtil;
 import com.svalero.tournaments.view.user.LoginView;
 import com.svalero.tournaments.view.team.ListTeamsView;
+import com.svalero.tournaments.view.user.ZoneUserView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +59,20 @@ public class ListNextTournamentsView extends AppCompatActivity implements ListNe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_main, menu);
+        hideMenuItems(menu);
         return true;
+    }
+
+    private void hideMenuItems(Menu menu){
+        String username = SharedPreferencesUtil.getCustomSharedPreferences(this, "username");
+        boolean isUserLogged = (username != null);
+        menu.findItem(R.id.menuItemSignIn).setVisible(!isUserLogged);
+        menu.findItem(R.id.menuItemRegister).setVisible(!isUserLogged);
+        menu.findItem(R.id.menuItemSignOut).setVisible(isUserLogged);
+        menu.findItem(R.id.menuItemMyZone).setVisible(isUserLogged);
+        if(username != null)
+            menu.findItem(R.id.menuItemNameUser).setTitle(getString(R.string.hi) + username);
+        menu.findItem(R.id.menuItemNameUser).setVisible(isUserLogged);
     }
 
     // Select option in menu
@@ -75,6 +91,13 @@ public class ListNextTournamentsView extends AppCompatActivity implements ListNe
         }else if(item.getItemId() == R.id.menuItemRegister){
             Intent intent = new Intent(this, LoginView.class);
             intent.putExtra("action", "register");
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemMyZone){
+            Intent intent = new Intent(this, ZoneUserView.class);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemSignOut){
+            SharedPreferencesUtil.setCustomSharedPreferences(this, "username", null);
+            Intent intent = new Intent(this, ListNextTournamentsView.class);
             startActivity(intent);
         }
         return true;
