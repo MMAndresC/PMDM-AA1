@@ -7,6 +7,7 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.presenter.tournament.RemoveTournamentPresenter;
 import com.svalero.tournaments.presenter.tournament.ListTournamentPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
+import com.svalero.tournaments.util.SortUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +137,6 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
         this.selectedTournament = tournament;
     }
 
-
     @Override
     public void deletedTournament(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
@@ -145,8 +146,10 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
 
     @Override
     public void listTournaments(List<Tournament> tournamentsList) {
+        boolean oldestFirst = ((RadioButton) findViewById(R.id.orderOlder)).isChecked();
         this.tournamentsList.clear();
         this.tournamentsList.addAll(tournamentsList);
+        SortUtil.sortTournamnentsByDate(this.tournamentsList, oldestFirst);
         adapter.notifyDataSetChanged();
     }
 
@@ -158,5 +161,11 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     @Override
     public void showSuccessMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickSortOptions(View view){
+        boolean oldestFirst = ((RadioButton) findViewById(R.id.orderOlder)).isChecked();
+        SortUtil.sortTournamnentsByDate(this.tournamentsList, oldestFirst);
+        adapter.notifyDataSetChanged();
     }
 }
