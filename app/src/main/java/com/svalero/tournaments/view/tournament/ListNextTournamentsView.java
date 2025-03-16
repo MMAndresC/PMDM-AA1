@@ -70,6 +70,9 @@ public class ListNextTournamentsView extends AppCompatActivity implements ListNe
         menu.findItem(R.id.menuItemRegister).setVisible(!isUserLogged);
         menu.findItem(R.id.menuItemSignOut).setVisible(isUserLogged);
         menu.findItem(R.id.menuItemMyZone).setVisible(isUserLogged);
+        if(username != null)
+            menu.findItem(R.id.menuItemNameUser).setTitle(getString(R.string.hi) + username);
+        menu.findItem(R.id.menuItemNameUser).setVisible(isUserLogged);
     }
 
     // Select option in menu

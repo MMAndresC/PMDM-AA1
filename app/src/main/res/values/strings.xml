@@ -59,4 +59,6 @@
     <string name="user_data_deleted">User data deleted</string>
     <string name="new_image">New image</string>
     <string name="camera">Camera</string>
+    <string name="users_in_device">Users in device</string>
+    <string name="hi">Hi, </string>
 </resources>

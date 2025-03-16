@@ -32,9 +32,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.svalero.tournaments.R;
+import com.svalero.tournaments.adapter.UserListAdapter;
 import com.svalero.tournaments.dao.AppDatabase;
 import com.svalero.tournaments.domain.SpinnerOption;
 import com.svalero.tournaments.domain.UserData;
@@ -43,6 +46,7 @@ import com.svalero.tournaments.util.SharedPreferencesUtil;
 import com.svalero.tournaments.view.tournament.ListNextTournamentsView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ZoneUserView extends AppCompatActivity {
 
@@ -51,6 +55,9 @@ public class ZoneUserView extends AppCompatActivity {
     private final int PICK_PICTURE = 1;
     private Uri pictureUri;
     private ImageView imageView;
+    private List<UserData> usersList;
+    private UserListAdapter adapterRecycler;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,9 @@ public class ZoneUserView extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageUser);
 
+        db = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
+                .allowMainThreadQueries().build();
+
         //Load spinner with position 0 as default
         ArrayList<SpinnerOption> options = getRegionOptions();
         ArrayAdapter<SpinnerOption> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
@@ -66,15 +76,25 @@ public class ZoneUserView extends AppCompatActivity {
         Spinner regionSpinner = findViewById(R.id.editRegionUserData);
         regionSpinner.setAdapter(adapter);
 
+        usersList = new ArrayList<>();
+
+        RecyclerView recyclerView = findViewById(R.id.listUserRecycler);
+        recyclerView.hasFixedSize();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapterRecycler = new UserListAdapter(usersList);
+        recyclerView.setAdapter(adapterRecycler);
+
         username = SharedPreferencesUtil.getCustomSharedPreferences(this, "username");
         if(username != null){
             //DB local
-            final AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
-                    .allowMainThreadQueries().build();
-
             try {
                 userData = db.userDataDao().getUserData(username);
                 loadData();
+                List<UserData> tempList = db.userDataDao().getUsers();
+                if(!tempList.isEmpty()){
+                    usersList.addAll(tempList);
+                }
             } catch (SQLiteConstraintException sce) {
                 String message = getString(R.string.db_error);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
@@ -101,7 +121,6 @@ public class ZoneUserView extends AppCompatActivity {
     /**
      *
      *COSAS PENDIENTES:
-     * - listar en un recycleview los usuarios del dispositivo
      * - equipos favoritos, guardarlo en la base de datos
      * -los idiomas
      * -ordenar
@@ -133,25 +152,35 @@ public class ZoneUserView extends AppCompatActivity {
     }
 
     private void actionsUserData(String action){
-        final AppDatabase db = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
-                .allowMainThreadQueries().build();
         try {
             String message = "";
             if(action.equals("save")){
                 getData();
                 db.userDataDao().insert(userData);
                 message = getString(R.string.user_data_saved);
+                usersList.add(userData);
+                adapterRecycler.notifyItemInserted(usersList.size() - 1);
             }
             if(action.equals("update")){
                 getData();
                 db.userDataDao().update(userData.getAlias(), userData.getImage(), userData.getRegion(), userData.getMainRole(), username);
                 message = getString(R.string.user_data_saved);
+                int index = findIndexInUsersList();
+                if(index != -1){
+                    usersList.set(index, userData);
+                    adapterRecycler.notifyItemChanged(index);
+                }
             }
             if(action.equals("delete")){
                 db.userDataDao().deleteByName(username);
                 resetView();
                 userData = null;
                 message = getString(R.string.user_data_deleted);
+                int index = findIndexInUsersList();
+                if(index != -1){
+                    usersList.remove(index);
+                    adapterRecycler.notifyItemRemoved(index);
+                }
             }
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         } catch (SQLiteConstraintException sce) {
@@ -269,21 +298,21 @@ public class ZoneUserView extends AppCompatActivity {
     }
 
     private String getMainRoleFromRadioGroup() {
-        if(((RadioButton) findViewById(R.id.radioButtonSupport)).isChecked())
-            return "support";
+        if(((RadioButton) findViewById(R.id.radioButtonTank)).isChecked())
+            return "tank";
         else if(((RadioButton) findViewById(R.id.radioButtonDps)).isChecked())
             return  "dps";
-        else if(((RadioButton) findViewById(R.id.radioButtonTank)).isChecked())
-            return  "tank";
+        else if(((RadioButton) findViewById(R.id.radioButtonSupport)).isChecked())
+            return  "support";
         return "";
     }
 
     private void resetView() {
         ((EditText) findViewById(R.id.editAliasUserData)).setText("");
         ((Spinner) findViewById(R.id.editRegionUserData)).setSelection(0);
-        ((RadioButton) findViewById(R.id.radioButtonSupport)).setChecked(false);
-        ((RadioButton) findViewById(R.id.radioButtonDps)).setChecked(false);
         ((RadioButton) findViewById(R.id.radioButtonTank)).setChecked(false);
+        ((RadioButton) findViewById(R.id.radioButtonDps)).setChecked(false);
+        ((RadioButton) findViewById(R.id.radioButtonSupport)).setChecked(false);
         imageView.setImageResource(R.drawable.no_photos);
     }
 
@@ -300,6 +329,16 @@ public class ZoneUserView extends AppCompatActivity {
         }
         //Default not save image in DB
         return true;
+    }
+
+    private int findIndexInUsersList(){
+        if(username == null) return  -1;
+        for(int i = 0; i < usersList.size(); i++){
+            UserData data = usersList.get(i);
+            if(data.getUsername().equals(username))
+                return i;
+        }
+        return -1;
     }
 
 }

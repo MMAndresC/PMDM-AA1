@@ -5,13 +5,19 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.svalero.tournaments.domain.User;
 import com.svalero.tournaments.domain.UserData;
+
+import java.util.List;
 
 @Dao
 public interface UserDataDao {
 
     @Query("SELECT * FROM user_data WHERE username = :username")
     UserData getUserData(String username);
+
+    @Query("SELECT * FROM user_data")
+    List<UserData> getUsers();
 
     @Insert
     void insert(UserData data);

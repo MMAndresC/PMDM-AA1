@@ -54,26 +54,43 @@
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/radioButtonSupport"
+                android:id="@+id/radioButtonTank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/role_tank" />
 
             <RadioButton
                 android:id="@+id/radioButtonDps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:text="@string/role_dps" />
 
             <RadioButton
-                android:id="@+id/radioButtonTank"
+                android:id="@+id/radioButtonSupport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/role_support" />
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/users_in_device" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listUserRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
