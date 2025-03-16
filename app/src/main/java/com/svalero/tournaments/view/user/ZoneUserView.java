@@ -2,27 +2,43 @@ package com.svalero.tournaments.view.user;
 
 import static com.svalero.tournaments.constants.Constants.DATABASE_NAME;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.room.Room;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.dao.AppDatabase;
 import com.svalero.tournaments.domain.SpinnerOption;
 import com.svalero.tournaments.domain.UserData;
+import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
 import com.svalero.tournaments.view.tournament.ListNextTournamentsView;
 
@@ -32,11 +48,16 @@ public class ZoneUserView extends AppCompatActivity {
 
     private UserData userData;
     private String username;
+    private final int PICK_PICTURE = 1;
+    private Uri pictureUri;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zone_user_view);
+
+        imageView = findViewById(R.id.imageUser);
 
         //Load spinner with position 0 as default
         ArrayList<SpinnerOption> options = getRegionOptions();
@@ -66,7 +87,27 @@ public class ZoneUserView extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        //Ask for consent to use camera
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PICK_PICTURE);
+        }
+
+        // Listener on click to select image from gallery
+        imageView.setOnClickListener(ev -> selectImageFromGallery());
     }
+
+    /**
+     *
+     *COSAS PENDIENTES:
+     * - listar en un recycleview los usuarios del dispositivo
+     * - equipos favoritos, guardarlo en la base de datos
+     * -los idiomas
+     * -ordenar
+     * -buscar
+     * -vista detalle del equipo con los juagdores
+     */
 
     //Create confirm dialog to delete tournament
     private void createDialog(String message, String action){
@@ -103,7 +144,7 @@ public class ZoneUserView extends AppCompatActivity {
             }
             if(action.equals("update")){
                 getData();
-                db.userDataDao().update(userData);
+                db.userDataDao().update(userData.getAlias(), userData.getImage(), userData.getRegion(), userData.getMainRole(), username);
                 message = getString(R.string.user_data_saved);
             }
             if(action.equals("delete")){
@@ -132,8 +173,51 @@ public class ZoneUserView extends AppCompatActivity {
             createDialog(getString(R.string.save_user_data), "save");
         }else if(item.getItemId() == R.id.deleteUserDataMenu) {
             createDialog(getString(R.string.delete_user_data), "delete");
+        }else if(item.getItemId() == R.id.photoUserDataMenu){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                launchCamera();
+            }
         }
         return true;
+    }
+
+    // Open camera and take photo
+    private final ActivityResultLauncher<Intent> startCamera = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        imageView.setImageURI(pictureUri);
+                    }
+                }
+            });
+
+    private void launchCamera() {
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, getString(R.string.new_image));
+        values.put(MediaStore.Images.Media.DESCRIPTION, getString(R.string.camera));
+        pictureUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+        startCamera.launch(cameraIntent);
+    }
+
+    // Get image from gallery when click on image view
+    private final ActivityResultLauncher<Intent> galleryActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if(result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri imageUri = result.getData().getData();
+                    imageView.setImageURI(imageUri);
+                }
+            }
+    );
+
+    public void selectImageFromGallery(){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryActivityResultLauncher.launch(intent);
     }
 
     public ArrayList<SpinnerOption> getRegionOptions(){
@@ -154,13 +238,15 @@ public class ZoneUserView extends AppCompatActivity {
         ((EditText) findViewById(R.id.editAliasUserData)).setText(alias);
         ((Spinner) findViewById(R.id.editRegionUserData)).setSelection(userData.getRegion());
         String role = userData.getMainRole();
-        if(role.isBlank()) return;
         if(role.equals("support"))
             ((RadioButton) findViewById(R.id.radioButtonSupport)).setChecked(true);
         else if(role.equals("dps"))
             ((RadioButton) findViewById(R.id.radioButtonDps)).setChecked(true);
         else if(role.equals("tank"))
             ((RadioButton) findViewById(R.id.radioButtonTank)).setChecked(true);
+        if(userData.getImage() != null){
+            imageView.setImageBitmap(ParseUtil.byteArrayToBitmap(userData.getImage()));
+        }
     }
 
     private void getData(){
@@ -170,6 +256,10 @@ public class ZoneUserView extends AppCompatActivity {
         userData.setAlias(alias);
         userData.setRegion(getRegionFromSpinner());
         userData.setMainRole(getMainRoleFromRadioGroup());
+        if(!isDefaultImage()){
+            Bitmap imageBitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            userData.setImage(ParseUtil.bitmapToByteArray(imageBitmap));
+        }
     }
 
     private int getRegionFromSpinner() {
@@ -194,5 +284,22 @@ public class ZoneUserView extends AppCompatActivity {
         ((RadioButton) findViewById(R.id.radioButtonSupport)).setChecked(false);
         ((RadioButton) findViewById(R.id.radioButtonDps)).setChecked(false);
         ((RadioButton) findViewById(R.id.radioButtonTank)).setChecked(false);
+        imageView.setImageResource(R.drawable.no_photos);
     }
+
+    private boolean isDefaultImage(){
+        Drawable imageInImageView = imageView.getDrawable();
+        Drawable defaultImage = getResources().getDrawable(R.drawable.no_photos, null);
+        if(imageInImageView != null && defaultImage != null){
+            //Avoid error if image is not BitMapDrawable
+            if(imageInImageView instanceof BitmapDrawable && defaultImage instanceof BitmapDrawable){
+                Bitmap imageBitmap = ((BitmapDrawable) imageInImageView).getBitmap();
+                Bitmap defaultBitmap = ((BitmapDrawable) defaultImage).getBitmap();
+                return imageBitmap.sameAs(defaultBitmap);
+            }
+        }
+        //Default not save image in DB
+        return true;
+    }
+
 }

@@ -3,6 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/photoUserDataMenu"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Camera"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/saveUserDataMenu"
         android:icon="@android:drawable/ic_menu_save"
         android:title="Save"

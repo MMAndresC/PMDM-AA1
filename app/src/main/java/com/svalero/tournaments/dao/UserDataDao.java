@@ -16,8 +16,8 @@ public interface UserDataDao {
     @Insert
     void insert(UserData data);
 
-    @Update
-    void update(UserData data);
+    @Query("UPDATE user_data SET alias = :alias, image = :image, region = :region, mainRole = :mainRole WHERE username = :username")
+    void update(String alias, byte[] image, int region, String mainRole, String username);
 
     @Query("DELETE FROM user_data WHERE username = :name")
     void deleteByName(String name);

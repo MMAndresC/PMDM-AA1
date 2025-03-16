@@ -57,4 +57,6 @@
     <string name="save_user_data">Save user data?</string>
     <string name="user_data_saved">User data saved</string>
     <string name="user_data_deleted">User data deleted</string>
+    <string name="new_image">New image</string>
+    <string name="camera">Camera</string>
 </resources>
