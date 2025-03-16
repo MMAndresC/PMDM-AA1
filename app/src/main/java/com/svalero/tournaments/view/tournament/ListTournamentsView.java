@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.svalero.tournaments.contract.tournament.ListTournamentsContract;
 import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.presenter.tournament.RemoveTournamentPresenter;
 import com.svalero.tournaments.presenter.tournament.ListTournamentPresenter;
+import com.svalero.tournaments.util.SearchUtil;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
 import com.svalero.tournaments.util.SortUtil;
 
@@ -36,6 +38,8 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     private TournamentsListAdapter adapter;
     private Tournament selectedTournament;
 
+    private List<Tournament> tournamentsWithoutFilters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,9 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
         presenter.loadTournaments();
 
         tournamentsList = new ArrayList<>();
+        tournamentsWithoutFilters = new ArrayList<>();
+
+        setEventListenerOnSearch();
 
         RecyclerView recyclerView = findViewById(R.id.listTournamentsRecycler);
         recyclerView.hasFixedSize();
@@ -128,9 +135,43 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
         builder.create().show();
     }
 
+    // Event methods
     public void onClickAddTournament(View view){
         Intent intent = new Intent(this, FormTournamentView.class);
         startActivity(intent);
+    }
+
+    public void onClickSortOptions(View view){
+        boolean oldestFirst = ((RadioButton) findViewById(R.id.orderOlder)).isChecked();
+        SortUtil.sortTournamnentsByDate(this.tournamentsList, oldestFirst);
+        SortUtil.sortTournamnentsByDate(this.tournamentsWithoutFilters, oldestFirst);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setEventListenerOnSearch(){
+        SearchView searchView = findViewById(R.id.searchTournaments);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                List<Tournament> filteredTournaments = SearchUtil.findTournamentsName(tournamentsList, query);
+                tournamentsList.clear();
+                tournamentsList.addAll(filteredTournaments);
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.isBlank()){
+                    boolean oldestFirst = ((RadioButton) findViewById(R.id.orderOlder)).isChecked();
+                    SortUtil.sortTournamnentsByDate(tournamentsWithoutFilters, oldestFirst);
+                    tournamentsList.clear();
+                    tournamentsList.addAll(tournamentsWithoutFilters);
+                    adapter.notifyDataSetChanged();
+                }
+                return true;
+            }
+        });
     }
 
     public void setSelectedTournament(Tournament tournament) {
@@ -141,15 +182,18 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     public void deletedTournament(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         tournamentsList.remove(selectedTournament);
+        tournamentsWithoutFilters.remove(selectedTournament);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void listTournaments(List<Tournament> tournamentsList) {
         boolean oldestFirst = ((RadioButton) findViewById(R.id.orderOlder)).isChecked();
+        SortUtil.sortTournamnentsByDate(tournamentsList, oldestFirst);
         this.tournamentsList.clear();
         this.tournamentsList.addAll(tournamentsList);
-        SortUtil.sortTournamnentsByDate(this.tournamentsList, oldestFirst);
+        this.tournamentsWithoutFilters.clear();
+        this.tournamentsWithoutFilters.addAll(tournamentsList);
         adapter.notifyDataSetChanged();
     }
 
@@ -161,11 +205,5 @@ public class ListTournamentsView extends AppCompatActivity implements ListTourna
     @Override
     public void showSuccessMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public void onClickSortOptions(View view){
-        boolean oldestFirst = ((RadioButton) findViewById(R.id.orderOlder)).isChecked();
-        SortUtil.sortTournamnentsByDate(this.tournamentsList, oldestFirst);
-        adapter.notifyDataSetChanged();
     }
 }
