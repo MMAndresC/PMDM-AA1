@@ -154,6 +154,7 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
                 Team team = teamsList.get(getAdapterPosition());
                 Intent intent = new Intent(itemView.getContext(), DetailTeamView.class);
                 intent.putExtra("team", team);
+                intent.putExtra("isFavourite", itemFavourite.isChecked());
                 startActivity(itemView.getContext(), intent, null);
             });
 

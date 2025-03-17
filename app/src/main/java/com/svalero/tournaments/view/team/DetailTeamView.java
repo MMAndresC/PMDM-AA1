@@ -27,6 +27,7 @@ public class DetailTeamView extends AppCompatActivity {
 
     private long loadDetailData(Intent intent) {
         Team team = intent.getParcelableExtra("team");
+        boolean isFavourite = intent.getBooleanExtra("isFavourite", false);
         if(team == null){
             Toast.makeText(this, getString(R.string.team_null), Toast.LENGTH_LONG).show();
             Intent comeBack = new Intent(this, ListTeamsView.class);
@@ -44,7 +45,8 @@ public class DetailTeamView extends AppCompatActivity {
             else imageView.setImageResource(R.drawable.no_photos);
         } else imageView.setImageResource(R.drawable.no_photos);
 
-        ((TextView) findViewById(R.id.nameDetailTeam)).setText(name);
+        String completeName = name + " " + (isFavourite ? "⭐": "");
+        ((TextView) findViewById(R.id.nameDetailTeam)).setText(completeName);
 
         String representative = getString(R.string.representative) + ": " + ParseUtil.extractParam(team.getRepresentative());
         ((TextView) findViewById(R.id.representativeDetailTeam)).setText(representative);
