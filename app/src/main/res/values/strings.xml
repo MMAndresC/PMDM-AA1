@@ -61,4 +61,6 @@
     <string name="camera">Camera</string>
     <string name="users_in_device">Users in device</string>
     <string name="hi">Hi, </string>
+    <string name="tournament_null">Tournament null</string>
+    <string name="team_null">Team null</string>
 </resources>

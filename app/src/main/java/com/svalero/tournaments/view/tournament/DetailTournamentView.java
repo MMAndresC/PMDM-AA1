@@ -45,7 +45,7 @@ public class DetailTournamentView extends AppCompatActivity implements Tournamen
     private long loadDetailData(Intent intent){
         Tournament tournament = intent.getParcelableExtra("tournament");
         if(tournament == null){
-            Toast.makeText(this, "Tournament null", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.tournament_null), Toast.LENGTH_LONG).show();
             Intent comeBack = new Intent(this, ListTournamentsView.class);
             startActivity(comeBack);
             finish();
@@ -54,8 +54,8 @@ public class DetailTournamentView extends AppCompatActivity implements Tournamen
         long id = tournament.getId();
         String name = tournament.getName();
         ((TextView) findViewById(R.id.nameDetailTournament)).setText(name);
-        ((TextView) findViewById(R.id.managerDetailTournament)).setText(extractParam(tournament.getManager()));
-        ((TextView) findViewById(R.id.addressDetailTournament)).setText(extractParam(tournament.getAddress()));
+        ((TextView) findViewById(R.id.managerDetailTournament)).setText(ParseUtil.extractParam(tournament.getManager()));
+        ((TextView) findViewById(R.id.addressDetailTournament)).setText(ParseUtil.extractParam(tournament.getAddress()));
         ((TextView) findViewById(R.id.dateDetailTournament)).setText(formatDate(tournament.getInitDate(), tournament.getEndDate()));
         String prize = tournament.getPrize() + " €";
         ((TextView) findViewById(R.id.prizeDetailTournament)).setText(prize);
@@ -87,15 +87,10 @@ public class DetailTournamentView extends AppCompatActivity implements Tournamen
     }
 
     private String formatDate(String initDate, String endDate){
-        initDate = extractParam(initDate);
-        endDate = extractParam(endDate);
+        initDate = ParseUtil.extractParam(initDate);
+        endDate = ParseUtil.extractParam(endDate);
         return DateUtil.formatFromString(initDate, "dd-MM-yyyy", "yyyy-MM-dd") + " / "
                 + DateUtil.formatFromString(endDate, "dd-MM-yyyy", "yyyy-MM-dd");
-    }
-
-    private String extractParam(String param){
-        if(param == null) param = "N/D";
-        return param;
     }
 
     @Override

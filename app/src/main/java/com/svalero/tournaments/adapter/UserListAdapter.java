@@ -1,5 +1,7 @@
 package com.svalero.tournaments.adapter;
 
+
+import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.svalero.tournaments.R;
+import com.svalero.tournaments.constants.Constants;
 import com.svalero.tournaments.domain.UserData;
 import com.svalero.tournaments.util.ParseUtil;
 
@@ -19,10 +23,11 @@ import java.util.List;
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserHolder> {
 
     private final List<UserData> usersList;
-    private final List<String> regions = List.of("North America", "South America", "Europe", "Asia", "Oceania");
+    private final Context context;
 
-    public UserListAdapter(List<UserData> userslist){
+    public UserListAdapter(List<UserData> userslist, Context contex){
         this.usersList = userslist;
+        this.context = contex;
     }
 
     @NonNull
@@ -41,7 +46,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserHo
         holder.itemAlias.setText(alias);
         int codeRegion = usersList.get(position).getRegion();
         String region = "";
-        if(codeRegion != 0) region = regions.get(codeRegion - 1);
+        if(codeRegion != 0){
+            String resourceName = Constants.STRING_REGIONS.get(codeRegion - 1);
+            int resourceId = context.getResources().getIdentifier(resourceName, "string", context.getPackageName());
+            region = context.getString(resourceId);
+        }
         holder.itemRegion.setText(region);
         byte[] image = usersList.get(position).getImage();
         if( image != null){
