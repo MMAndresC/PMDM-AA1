@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TeamsListAdapter;
 import com.svalero.tournaments.contract.team.ListTeamsContract;
-import com.svalero.tournaments.contract.team.ModifyTeamContract;
 import com.svalero.tournaments.contract.team.RemoveTeamContract;
-import com.svalero.tournaments.contract.tournament.RemoveTournamentContract;
 import com.svalero.tournaments.domain.Team;
 import com.svalero.tournaments.presenter.team.ListTeamsPresenter;
 import com.svalero.tournaments.presenter.team.RemoveTeamPresenter;
-import com.svalero.tournaments.presenter.tournament.RemoveTournamentPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
-import com.svalero.tournaments.view.tournament.FormTournamentView;
+import com.svalero.tournaments.view.tournament.ListNextTournamentsView;
+import com.svalero.tournaments.view.tournament.ListTournamentsView;
+import com.svalero.tournaments.view.user.LoginView;
+import com.svalero.tournaments.view.user.ZoneUserView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,58 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
 
         adapter = new TeamsListAdapter(teamList,this);
         recyclerView.setAdapter(adapter);
+    }
+
+    //Add menu action_bar_main in activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_bar_main, menu);
+        MenuItem item = menu.findItem(R.id.menuItemTournaments);
+        item.setIcon(R.drawable.esports);
+        item = menu.findItem(R.id.menuItemTeams);
+        item.setIcon(R.drawable.icon_tournament);
+        hideMenuItems(menu);
+        return true;
+    }
+
+    private void hideMenuItems(Menu menu){
+        String username = SharedPreferencesUtil.getCustomSharedPreferences(this, "username");
+        boolean isUserLogged = (username != null);
+        menu.findItem(R.id.menuItemSignIn).setVisible(!isUserLogged);
+        menu.findItem(R.id.menuItemRegister).setVisible(!isUserLogged);
+        menu.findItem(R.id.menuItemSignOut).setVisible(isUserLogged);
+        menu.findItem(R.id.menuItemMyZone).setVisible(isUserLogged);
+        if(username != null)
+            menu.findItem(R.id.menuItemNameUser).setTitle(getString(R.string.hi) + username);
+        menu.findItem(R.id.menuItemNameUser).setVisible(isUserLogged);
+    }
+
+    // Select option in menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuItemTournaments) {
+            Intent intent = new Intent(this, ListNextTournamentsView.class);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemTeams) {
+            Intent intent = new Intent(this, ListTournamentsView.class);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemSignIn){
+            Intent intent = new Intent(this, LoginView.class);
+            intent.putExtra("action", "signIn");
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemRegister){
+            Intent intent = new Intent(this, LoginView.class);
+            intent.putExtra("action", "register");
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemMyZone){
+            Intent intent = new Intent(this, ZoneUserView.class);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.menuItemSignOut){
+            SharedPreferencesUtil.setCustomSharedPreferences(this, "username", null);
+            Intent intent = new Intent(this, ListNextTournamentsView.class);
+            startActivity(intent);
+        }
+        return true;
     }
 
     //Register context menu
