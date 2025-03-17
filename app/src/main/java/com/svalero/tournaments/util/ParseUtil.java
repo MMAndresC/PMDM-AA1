@@ -25,4 +25,9 @@ public class ParseUtil {
     public static Bitmap byteArrayToBitmap(byte[] imageData) {
         return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
     }
+
+    public static String extractParam(String param){
+        if(param == null) param = "N/D";
+        return param;
+    }
 }

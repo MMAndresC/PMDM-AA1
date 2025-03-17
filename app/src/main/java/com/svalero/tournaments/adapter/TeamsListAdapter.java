@@ -1,5 +1,8 @@
 package com.svalero.tournaments.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.domain.Team;
 import com.svalero.tournaments.util.ParseUtil;
+import com.svalero.tournaments.view.team.DetailTeamView;
 import com.svalero.tournaments.view.team.ListTeamsView;
 
 import java.util.List;
@@ -97,13 +101,13 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
             this.itemRegion = itemView.findViewById(R.id.regionTeamItem);
             this.itemLogo = itemView.findViewById(R.id.logoTeamItem);
 
-           /* //listener event click to go to detail view
+            //listener event click to go to detail view
             itemView.setOnClickListener(view -> {
                 Team team = teamsList.get(getAdapterPosition());
-                Intent intent = new Intent(itemView.getContext(), TeamDetailView.class);
+                Intent intent = new Intent(itemView.getContext(), DetailTeamView.class);
                 intent.putExtra("team", team);
                 startActivity(itemView.getContext(), intent, null);
-            });*/
+            });
 
             // Register context menu
             itemView.setOnCreateContextMenuListener(this);

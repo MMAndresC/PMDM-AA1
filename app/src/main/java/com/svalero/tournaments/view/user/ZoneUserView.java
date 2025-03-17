@@ -82,7 +82,7 @@ public class ZoneUserView extends AppCompatActivity {
         recyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        adapterRecycler = new UserListAdapter(usersList);
+        adapterRecycler = new UserListAdapter(usersList, this);
         recyclerView.setAdapter(adapterRecycler);
 
         username = SharedPreferencesUtil.getCustomSharedPreferences(this, "username");
