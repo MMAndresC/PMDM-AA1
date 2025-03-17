@@ -2,20 +2,28 @@ package com.svalero.tournaments.adapter;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
+import static com.svalero.tournaments.constants.Constants.DATABASE_NAME;
+
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.svalero.tournaments.R;
+import com.svalero.tournaments.dao.AppDatabase;
 import com.svalero.tournaments.domain.Team;
+import com.svalero.tournaments.domain.UserFavourite;
 import com.svalero.tournaments.util.ParseUtil;
 import com.svalero.tournaments.view.team.DetailTeamView;
 import com.svalero.tournaments.view.team.ListTeamsView;
@@ -26,10 +34,14 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
 
     private List<Team> teamsList;
     private ListTeamsView context;
+    private List<UserFavourite> userFavourites;
+    private String username;
 
-    public TeamsListAdapter(List<Team> teamsList, ListTeamsView context){
+    public TeamsListAdapter(List<Team> teamsList, ListTeamsView context, List<UserFavourite> userFavourites, String username){
         this.teamsList = teamsList;
         this.context = context;
+        this.userFavourites = userFavourites;
+        this.username = username;
     }
 
     @NonNull
@@ -42,13 +54,47 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
 
     @Override
     public void onBindViewHolder(@NonNull TeamsListAdapter.TeamHolder holder, int position) {
-        holder.itemId.setText(String.valueOf(teamsList.get(position).getId()));
+        long id = teamsList.get(position).getId();
+        holder.itemId.setText(String.valueOf(id));
         holder.itemName.setText(teamsList.get(position).getName());
         setImage(holder.itemLogo, teamsList.get(position).getName());
         String region = translateRegionToString(teamsList.get(position).getRegion());
         holder.itemRegion.setText(region);
         String partner = teamsList.get(position).isPartner() ? "Partner" : "";
         holder.itemPartner.setText(partner);
+
+        boolean isFavourite = userFavourites.stream().anyMatch(fav -> fav.getTeamId() == id);
+        holder.itemFavourite.setChecked(isFavourite);
+        holder.itemFavourite.setEnabled(username != null);
+
+        // Event click on checkbox
+        holder.itemFavourite.setOnClickListener(v -> {
+            if (username == null) {
+                Toast.makeText(context,
+                        context.getString(R.string.required_logged_mark_favorite),
+                        Toast.LENGTH_LONG).show();
+                //Uncheck
+                holder.itemFavourite.setChecked(!holder.itemFavourite.isChecked());
+                return;
+            }
+            AppDatabase db = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME)
+                    .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
+                    .build();
+            try {
+                if (holder.itemFavourite.isChecked()) {
+                    db.userFavouriteDao().insert(new UserFavourite(username, id));
+                    userFavourites.add(new UserFavourite(username, id));
+                } else {
+                    db.userFavouriteDao().deleteFavouriteTeam(username, id);
+                    userFavourites.removeIf(fav -> fav.getTeamId() == id);
+                }
+            } catch (SQLiteConstraintException sce) {
+                String message = context.getString(R.string.db_error);
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        });
+
         // Context menu listener
         holder.itemView.setOnLongClickListener(v -> {
             context.setSelectedTeam(teamsList.get(position));
@@ -92,6 +138,7 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
         private TextView itemRegion;
         private TextView itemPartner;
         private ImageView itemLogo;
+        private CheckBox itemFavourite;
         public TeamHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -100,6 +147,7 @@ public class TeamsListAdapter extends RecyclerView.Adapter<TeamsListAdapter.Team
             this.itemPartner = itemView.findViewById(R.id.partnerTeamItem);
             this.itemRegion = itemView.findViewById(R.id.regionTeamItem);
             this.itemLogo = itemView.findViewById(R.id.logoTeamItem);
+            this.itemFavourite = itemView.findViewById(R.id.favouriteTeamCheckbox);
 
             //listener event click to go to detail view
             itemView.setOnClickListener(view -> {

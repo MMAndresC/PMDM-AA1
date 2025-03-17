@@ -1,13 +1,17 @@
 package com.svalero.tournaments.view.team;
 
+import static com.svalero.tournaments.constants.Constants.DATABASE_NAME;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,12 +19,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.svalero.tournaments.R;
 import com.svalero.tournaments.adapter.TeamsListAdapter;
 import com.svalero.tournaments.contract.team.ListTeamsContract;
 import com.svalero.tournaments.contract.team.RemoveTeamContract;
+import com.svalero.tournaments.dao.AppDatabase;
 import com.svalero.tournaments.domain.Team;
+import com.svalero.tournaments.domain.UserFavourite;
 import com.svalero.tournaments.presenter.team.ListTeamsPresenter;
 import com.svalero.tournaments.presenter.team.RemoveTeamPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
@@ -37,24 +44,46 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
     private Team selectedTeam;
     private TeamsListAdapter adapter;
     private List<Team> teamList;
+    private String username = null;
+    private  AppDatabase db;
+    private List<UserFavourite> userFavourites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teams_list_view);
 
+        username = SharedPreferencesUtil.getCustomSharedPreferences(this, "username");
+
+        db = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+
         ListTeamsContract.Presenter presenter = new ListTeamsPresenter(this);
         presenter.loadTeams();
 
         teamList = new ArrayList<>();
+
+        getFavouritesTeam();
 
         RecyclerView recyclerView = findViewById(R.id.listTeamsRecycler);
         recyclerView.hasFixedSize();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new TeamsListAdapter(teamList,this);
+        adapter = new TeamsListAdapter(teamList,this, userFavourites, username);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void getFavouritesTeam(){
+        if(username == null) userFavourites = new ArrayList<>();
+        try {
+            userFavourites = db.userFavouriteDao().getFavouritesTeams(username);
+        }catch(SQLiteConstraintException sce) {
+            String message = getString(R.string.db_error);
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }
     }
 
     //Add menu action_bar_main in activity
@@ -70,7 +99,6 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
     }
 
     private void hideMenuItems(Menu menu){
-        String username = SharedPreferencesUtil.getCustomSharedPreferences(this, "username");
         boolean isUserLogged = (username != null);
         menu.findItem(R.id.menuItemSignIn).setVisible(!isUserLogged);
         menu.findItem(R.id.menuItemRegister).setVisible(!isUserLogged);
@@ -183,6 +211,12 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
     @Override
     public void deletedTeam(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        //Delete from favourites local
+        try {
+            db.userFavouriteDao().deleteFavouriteTeam(username, selectedTeam.getId());
+        }catch (SQLiteConstraintException sce) {
+            Toast.makeText(this, getString(R.string.db_error), Toast.LENGTH_LONG).show();
+        }
         teamList.remove(selectedTeam);
         adapter.notifyDataSetChanged();
     }
@@ -205,4 +239,5 @@ public class ListTeamsView extends AppCompatActivity implements ListTeamsContrac
     public void setSelectedTeam(Team team){
         this.selectedTeam = team;
     }
+
 }

@@ -67,7 +67,9 @@ public class ZoneUserView extends AppCompatActivity {
         imageView = findViewById(R.id.imageUser);
 
         db = Room.databaseBuilder(this, AppDatabase.class, DATABASE_NAME)
-                .allowMainThreadQueries().build();
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
 
         //Load spinner with position 0 as default
         ArrayList<SpinnerOption> options = getRegionOptions();
@@ -117,16 +119,6 @@ public class ZoneUserView extends AppCompatActivity {
         // Listener on click to select image from gallery
         imageView.setOnClickListener(ev -> selectImageFromGallery());
     }
-
-    /**
-     *
-     *COSAS PENDIENTES:
-     * - equipos favoritos, guardarlo en la base de datos
-     * -los idiomas
-     * -ordenar
-     * -buscar
-     * -vista detalle del equipo con los juagdores
-     */
 
     //Create confirm dialog to delete tournament
     private void createDialog(String message, String action){
