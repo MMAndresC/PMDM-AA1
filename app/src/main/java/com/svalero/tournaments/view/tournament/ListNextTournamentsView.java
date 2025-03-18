@@ -20,6 +20,7 @@ import com.svalero.tournaments.domain.Tournament;
 import com.svalero.tournaments.fragment.MapFragment;
 import com.svalero.tournaments.presenter.tournament.ListNextTournamentsPresenter;
 import com.svalero.tournaments.util.SharedPreferencesUtil;
+import com.svalero.tournaments.util.SortUtil;
 import com.svalero.tournaments.view.user.LoginView;
 import com.svalero.tournaments.view.team.ListTeamsView;
 import com.svalero.tournaments.view.user.ZoneUserView;
@@ -105,6 +106,7 @@ public class ListNextTournamentsView extends AppCompatActivity implements ListNe
 
     @Override
     public void listNextTournaments(List<Tournament> tournamentsList) {
+        SortUtil.sortTournamnentsByDate(tournamentsList, true);
         this.tournamentsList.addAll(tournamentsList);
         mainAdapter.notifyDataSetChanged();
 
