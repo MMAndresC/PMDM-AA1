@@ -33,7 +33,7 @@ public interface TournamentApiInterface {
     Call<Tournament> addTournament(@Body Tournament tournament);
 
     @DELETE("tournaments/{id}")
-    Call<Void> deleteTournament( @Header("Authorization") String token, @Path("id") long id);
+    Call<Void> deleteTournament(@Header("Authorization") String token, @Path("id") long id);
 
     @PUT("tournaments/{id}")
     Call<Tournament> modifyTournament(@Body Tournament tournament, @Path("id") long id);

@@ -13,6 +13,6 @@ public interface UserApiInterface {
     Call<TokenResponse> loginUser(@Body User user);
 
     @POST("register")
-    Call<User> registerUser(@Body User user);
+    Call<String> registerUser(@Body User user);
 
 }

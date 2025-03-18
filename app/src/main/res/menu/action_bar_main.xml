@@ -3,19 +3,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menuItemNameUser"
+        android:title="@string/hi"
+        android:visible="false"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menuItemTournaments"
         android:icon="@drawable/icon_tournament"
         android:title="@string/tournaments"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menuItemTeams"
         android:icon="@drawable/icon_team"
         android:title="@string/teams"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/menuItemSignIn"
         android:title="@string/sign_in" />
     <item
         android:id="@+id/menuItemRegister"
         android:title="@string/register" />
+    <item
+        android:id="@+id/menuItemMyZone"
+        android:title="@string/my_zone"
+        android:visible="false" />
+    <item
+        android:id="@+id/menuItemSignOut"
+        android:title="@string/sign_out"
+        android:visible="false" />
 </menu>

@@ -39,4 +39,7 @@ dependencies {
     implementation("com.mapbox.maps:android:10.9.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.4.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation ("androidx.room:room-runtime:2.4.3")
+    annotationProcessor ("androidx.room:room-compiler:2.4.3")
 }
